@@ -19,3 +19,5 @@ Route::get('/', function () {
 Route::get('/login','Application\LoginController@login');
 //验证码路由
 Route::get('/code/captcha/{tmp}','Application\LoginController@captcha');
+//系统登录验证路由
+Route::any('/login/doLogin','Application\LoginController@doLogin');

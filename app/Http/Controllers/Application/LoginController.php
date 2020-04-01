@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -37,5 +38,44 @@ class LoginController extends Controller
         header("Cache-Control: no-cache, must revalidate");
         header("Content-Type:image/jpeg");
         $builder->output();
+    }
+
+    public function doLogin(Request $request)
+    {
+        //接受表单数据
+        $input=$request->except('_token');
+        //进行表单验证
+        $rules=[
+            'id'=>'required|regex:/^\d{8}$/',
+            'password'=>'required|between:4,18|alpha_dash',
+            'captcha'=>'required|size:4',
+        ];
+        //自定义提示信息
+        $msgs=[
+            'id.required'=>'学号/工号不能为空',
+            'id.regex'=>'学号工号应为8位数字',
+        ];
+        $validator=Validator::make($input,$rules,$msgs);
+        //获取验证码
+        $captcha=strtoupper($request->input('captcha'));
+        $code = strtoupper($request->session()->get('code'));
+        //验证码正确
+        if($code==$captcha){
+//            $request->session()->put('userInfo', ['name'=>$name, 'id'=>$id]);
+            //用户信息验证
+            //验证失败
+            if($validator->fails()){
+                return back()->withErrors($validator)->withInput();
+            }
+            //验证通过
+            else{
+
+            }
+        }
+        //验证码错误
+        else{
+            return back()->withErrors('验证码错误')->withInput();
+        }
+
     }
 }
