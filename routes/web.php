@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//系统登录页面路由
+Route::get('/login','Application\LoginController@login');
+//验证码路由
+Route::get('/code/captcha/{tmp}','Application\LoginController@captcha');
