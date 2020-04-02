@@ -24,7 +24,7 @@
     <div id="darkbannerwrap"></div>
     <form method="post" class="layui-form" action="{{url('login/doLogin')}}">
         {{csrf_field()}}
-        <input name="id" placeholder="学号/工号" type="text" lay-verify="required" class="layui-input">
+        <input name="no" placeholder="学号/工号" type="text" lay-verify="required" class="layui-input">
         <hr class="hr15">
         <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
         <hr class="hr15">
