@@ -16,7 +16,7 @@ class UserLoginMiddleware
     public function handle($request, Closure $next)
     {
         //当前会话中无用户
-        if (!session('user')) {
+        if (!session('userInfo')) {
             //回到登录
             return redirect('/login');
         }

@@ -74,7 +74,7 @@ class LoginController extends Controller
                     return back()->withErrors('用户名或密码错误');
                 }
                 //将用户信息写入session中
-                session(['user' => $user]);
+                session(['userInfo' => $user]);
                 //根据用户角色跳转到相应系统主页
                 switch ($user->type) {
                     //学生

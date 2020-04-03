@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>评分管理系统|教师</title>
+    <title>课程评分管理系统|老师</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -18,11 +18,53 @@
 
 </head>
 <body>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="{{url('/teacher/index')}}">课程评分管理系统</a></div>
+    <ul class="layui-nav left" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;">评分依据</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a onclick="x_admin_show('资讯','http://www.baidu.com')"><i class="iconfont">&#xe69e;</i>修改权重</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;">{{session('teacherInfo')['name']}}</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="{{url('/changePass')}}">修改密码</a></dd>
+                <dd><a href="{{url('/logout')}}">退出</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
+    </ul>
 
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+
+<!-- 右侧主体开始 -->
+<div class="page-content" style="left: 0px;">
+    <div class="layui-tab-content" style="top: 0px;">
+        <div class="layui-tab-item layui-show">
+            <iframe src='{{url('/teacher/welcome')}}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+        </div>
+    </div>
+</div>
+</div>
+<div class="page-content-bg"></div>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2020 221600440_小冰</div>
+</div>
+
+
+<!-- 底部结束 -->
 <script>
 
 </script>
-
-<!-- 底部结束 -->
 </body>
 </html>

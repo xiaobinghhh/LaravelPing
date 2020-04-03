@@ -15,8 +15,8 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no',11)->unique();//教师工号
-            $table->string('name',20);//教师姓名
+            $table->string('no', 11)->unique();//教师工号
+            $table->string('name', 20);//教师姓名
             $table->string('office')->nullable($value = true);//办公室，varchar(255)
         });
     }
