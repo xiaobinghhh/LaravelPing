@@ -9,4 +9,5 @@ class User extends Model
     //定义关联的数据表
     protected $table = 'users';
 
+    public $timestamps = false;
 }

@@ -96,13 +96,13 @@
             <table class="layui-table">
                 <tbody>
                 <tr>
-                    <th>课程名称</th>
-                    <td>开始时间</td>
-                    <td>结束时间</td>
-                    <td>地点</td>
-                    <td>学分</td>
-                    <td>课时</td>
-                    <td>操作</td>
+                    <th style="font-weight: bold">课程名称</th>
+                    <td style="font-weight: bold">开始时间</td>
+                    <td style="font-weight: bold">结束时间</td>
+                    <td style="font-weight: bold">地点</td>
+                    <td style="font-weight: bold">学分</td>
+                    <td style="font-weight: bold">课时</td>
+                    <td></td>
                 </tr>
                 @foreach($courses as $course)
                     <tr>
@@ -112,7 +112,7 @@
                         <td>{{$course->place}}</td>
                         <td>{{$course->credit}}</td>
                         <td>{{$course->period}}</td>
-                        <td><a href="javascript:;">进入课程</a></td>
+                        <td><a href="javascript:;" class="x-a">进入课程</a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -139,14 +139,5 @@
     </fieldset>
     <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote>
 </div>
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 </body>
 </html>

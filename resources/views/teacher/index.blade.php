@@ -25,7 +25,8 @@
         <li class="layui-nav-item">
             <a href="javascript:;">评分依据</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a onclick="x_admin_show('资讯','http://www.baidu.com')"><i class="iconfont">&#xe69e;</i>修改权重</a></dd>
+                <dd><a onclick="iframe.location='{{url('teacher/changePass')}}'"><i class="iconfont">&#xe6ae;</i>设置</a>
+                </dd>
             </dl>
         </li>
     </ul>
@@ -33,8 +34,9 @@
         <li class="layui-nav-item">
             <a href="javascript:;">{{session('teacherInfo')['name']}}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a href="{{url('/changePass')}}">修改密码</a></dd>
-                <dd><a href="{{url('/logout')}}">退出</a></dd>
+                <dd><a onclick="x_admin_show('修改密码','{{url('teacher/changePass')}}',500,400)">修改密码</a></dd>
+                {{--                <dd><a onclick="iframe.location='{{url('teacher/changePass')}}'">修改密码</a></dd>--}}
+                <dd><a href="{{url('teacher/logout')}}">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -48,7 +50,8 @@
 <div class="page-content" style="left: 0px;">
     <div class="layui-tab-content" style="top: 0px;">
         <div class="layui-tab-item layui-show">
-            <iframe src='{{url('/teacher/welcome')}}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            <iframe name="iframe" src='{{url('/teacher/welcome')}}' frameborder="0" scrolling="yes"
+                    class="x-iframe"></iframe>
         </div>
     </div>
 </div>

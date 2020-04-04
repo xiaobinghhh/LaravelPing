@@ -38,7 +38,7 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'teacher', 'nam
     //教师-首页
     Route::get('index', 'IndexController@index');
     //教师-欢迎页
-    Route::get('welcome','IndexController@welcome');
+    Route::get('welcome', 'IndexController@welcome');
     //退出登录路由
     Route::get('logout', 'IndexController@logout');
     //修改密码路由
