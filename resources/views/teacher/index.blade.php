@@ -9,7 +9,7 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{asset('/favicon.ico')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{asset('template/css/font.css')}}">
     <link rel="stylesheet" href="{{asset('template/css/xadmin.css')}}">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -23,7 +23,7 @@
     <div class="logo"><a href="{{url('/teacher/index')}}">课程评分管理系统</a></div>
     <ul class="layui-nav left" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">评分依据</a>
+            <a href="javascript:;">评分项</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a onclick="iframe.location='{{url('teacher/changePass')}}'"><i class="iconfont">&#xe6ae;</i>设置</a>
                 </dd>

@@ -43,4 +43,12 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'teacher', 'nam
     Route::get('logout', 'IndexController@logout');
     //修改密码路由
     Route::any('changePass', 'IndexController@changePass');
+
+});
+
+//课程评分系统界面路由
+Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], function () {
+    //课程-首页
+    Route::get('course/{course}', 'IndexController@course');
+
 });

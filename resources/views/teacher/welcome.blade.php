@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-    <link rel="shortcut icon" href="{{asset('template/favicon.ico')}}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{asset('/favicon.ico')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{asset('template/css/font.css')}}">
     <link rel="stylesheet" href="{{asset('template/css/xadmin.css')}}">
 </head>
@@ -112,7 +112,7 @@
                         <td>{{$course->place}}</td>
                         <td>{{$course->credit}}</td>
                         <td>{{$course->period}}</td>
-                        <td><a href="javascript:;" class="x-a">进入课程</a></td>
+                        <td><a href="{{url('/course/'.$course->no)}}" target="_parent" class="x-a">进入课程</a></td>
                     </tr>
                 @endforeach
                 </tbody>
