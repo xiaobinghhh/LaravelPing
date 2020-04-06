@@ -50,5 +50,7 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'teacher', 'nam
 Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], function () {
     //课程-首页
     Route::get('course/{course}', 'IndexController@course');
+    //课程-欢迎页
+    Route::get('course/{course}/welcome', 'CourseController@welcome');
 
 });

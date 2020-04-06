@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|欢迎页面</title>
+    <title>课程评分管理系统|课程欢迎页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -76,40 +76,6 @@
         </div>
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">课程列表</div>
-                <div class="layui-card-body ">
-                    <table class="layui-table">
-                        <tbody>
-                        <tr>
-                            <th style="font-weight: bold">课程名称</th>
-                            <td style="font-weight: bold">开始时间</td>
-                            <td style="font-weight: bold">结束时间</td>
-                            <td style="font-weight: bold">地点</td>
-                            <td style="font-weight: bold">学分</td>
-                            <td style="font-weight: bold">课时</td>
-                            <td></td>
-                        </tr>
-                        @foreach($courses as $course)
-                            <tr>
-                                <th>{{$course->name}}</th>
-                                <td>{{$course->begin_at}}</td>
-                                <td>{{$course->end_at}}</td>
-                                <td>{{$course->place}}</td>
-                                <td>{{$course->credit}}</td>
-                                <td>{{$course->period}}</td>
-                                <td>
-                                    <a href="{{url('/course/'.$course->no)}}" class="layui-btn layui-btn-fluid"
-                                       target="_parent">进入课程</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
                 <div class="layui-card-header">开发团队</div>
                 <div class="layui-card-body ">
                     <table class="layui-table">
@@ -129,12 +95,11 @@
                 </div>
             </div>
         </div>
-        <style id="welcome_style"></style>
         <div class="layui-col-md12">
             <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote>
         </div>
     </div>
 </div>
-
 </body>
+
 </html>

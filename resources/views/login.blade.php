@@ -11,14 +11,14 @@
 
     <link rel="shortcut icon" href="{{asset('/favicon.ico')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{asset('template/css/font.css')}}">
+    <link rel="stylesheet" href="{{asset('template/css/login.css')}}">
     <link rel="stylesheet" href="{{asset('template/css/xadmin.css')}}">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{asset('template/js/jquery.min.js')}}"></script>
     <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
     <script type="text/javascript" src="{{asset('template/js/xadmin.js')}}"></script>
 
 </head>
 <body class="login-bg">
-
 <div class="login layui-anim layui-anim-up">
     <div class="message">欢迎使用评分管理系统</div>
     <div id="darkbannerwrap"></div>
