@@ -76,6 +76,25 @@
         </div>
         <div class="layui-col-md12">
             <div class="layui-card">
+                <div class="layui-card-header">课程学生</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table">
+                        <tbody>
+                        <tr>
+                            <th>学生</th>
+                        </tr>
+                        @foreach($students as $student)
+                            <tr>
+                                <th>{{$student->name}}</th>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
                 <div class="layui-card-header">开发团队</div>
                 <div class="layui-card-body ">
                     <table class="layui-table">

@@ -53,4 +53,11 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     //课程-欢迎页
     Route::get('course/{course}/welcome', 'CourseController@welcome');
 
+    //签到评分页面
+    Route::get('course/{course}/signment_ping','SignmentController@ping');
+    //签到列表
+    Route::get('course/{course}/signment_list','SignmentController@list');
+
+    //签到修改
+    Route::post('course/{course}/signment_edit','SignmentController@edit');
 });

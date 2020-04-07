@@ -58,12 +58,12 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('签到评分','welcome1.html')">
+                        <a onclick="xadmin.add_tab('签到评分','{{url("course/".$course->no."/signment_ping")}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>签到评分</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('签到依据','member-list.html')">
+                        <a onclick="xadmin.add_tab('签到依据','{{url('course/'.$course->no.'/signment_file')}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>签到依据</cite></a>
                     </li>

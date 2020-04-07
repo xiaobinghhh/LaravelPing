@@ -14,4 +14,10 @@ class Course extends Model
     {
         return $this->belongsTo('App\Application\Teacher', 'teacher_no', 'no');
     }
+
+    //课程和学生多对多
+    public function students()
+    {
+        return $this->belongsToMany('App\Application\Student', 'student_course', 'course_no', 'student_no', 'no', 'no');
+    }
 }
