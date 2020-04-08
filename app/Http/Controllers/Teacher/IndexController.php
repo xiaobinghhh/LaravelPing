@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Teacher;
 use App\Application\Course;
 use App\Application\Teacher;
 use App\Application\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use function MongoDB\BSON\toJSON;
 
 class IndexController extends Controller
 {

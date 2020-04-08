@@ -22,58 +22,86 @@
             type="text/javascript"></script>
     {{--引入x-editable-develop--}}
     <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.js')}}" type="text/javascript"></script>
+    {{--引入layui与xadmin的js--}}
+    <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
+    <script type="text/javascript" src="{{asset('template/js/xadmin.js')}}"></script>
 
 </head>
 <body>
+
 <div class="container" z-index="-1">
+    <!--新的签到按钮-->
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
+            <a class="btn btn-primary" href="{{url("course/".$course->no."/signment_add")}}">新的签到</a>
+        </div>
+    </div>
+    <!--签到计分提示-->
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <i style="color: red;">*</i>
+            <span style="color: grey;">(计分方式：缺勤0分，出勤100分。按签到次数求均值为签到所得分)</span>
+        </div>
+    </div>
     <!--表格-->
     <div class="row">
-        <div class="col-lg-offset-1 col-lg-11   col-md-offset-1 col-md-11 col-sm-offset-1 col-sm-11 col-xs-offset-2 col-xs-10">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table id="SignTable" z-index="-1" dataclasses="table" data-undefined-text="-" data-striped="true"
                    data-sort-order="asc" data-sort-stable="true" data-pagination="true" data-page-number="1"
                    data-page-size="10" data-search="true"></table>
         </div>
     </div>
 </div>
-
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#SignTable').bootstrapTable({
-            columns: [
-                {
-                    field: 'student_no',
-                    title: '学号'
-                }, {
-                    field: 'student_name',
-                    title: '学生姓名'
-                }, {
-                    field: 'sign_score',
-                    title: '签到成绩',
-                    editable: {
-                        type: "text"
+        //使用ajax加载动态列的
+        var columns = [];
+        $.ajax({
+            url: "{{url("course/".$course->no."/signment_columns")}}",
+            async: true,
+            success: function (returnValue) {
+                //异步获取要动态生成的列
+                var arr = JSON.parse(returnValue);
+                $.each(arr, function (i, item) {
+                    if (item.colname.search('sign_data') !== -1) {
+                        columns.push({"field": item.colname, "title": item.colalias, "width": 100, "editable": true});
+                    } else {
+                        columns.push({"field": item.colname, "title": item.colalias, "width": 100, "sortable": true});
                     }
-                }],
-            url: "{{url("course/".$course->no."/signment_list")}}",
-            onEditableSave: function (field, row, oldvalue, $el) {
-                $.ajax({
-                    type: "post",
-                    url: "{{url("course/".$course->no."/signment_edit")}}",
-                    data: row,
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    success: function (data, status) {
-                        if (status == "success") {
-                            alert('提交数据成功');
-                        }
-                    },
-                    error: function () {
-                        alert('编辑失败');
-                    },
-                    complete: function () {
-                        alert('完成');
+                });
+                $('#SignTable').bootstrapTable('destroy').bootstrapTable({
+                    columns: columns,
+                    url: "{{url("course/".$course->no."/signment_list")}}",
+                    onEditableSave: function (field, row, oldvalue, $el) {
+                        $.ajax({
+                            type: "post",
+                            url: "{{url("course/".$course->no."/signment_edit")}}",
+                            data: row,
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            },
+                            success: function (data) {
+                                if (data.flag === 1) {
+                                    layui.use('layer', function () {
+                                        var layer = layui.layer;
+                                        layer.msg(data.msg, {icon: 1});
+                                    });
+                                } else {
+                                    layui.use('layer', function () {
+                                        var layer = layui.layer;
+                                        layer.msg(data.msg, {icon: 2});
+                                    });
+                                }
+                            },
+                            error: function () {
+                                layui.use('layer', function () {
+                                    var layer = layui.layer;
+                                    layer.msg("请求出错，请重试", {icon: 2});
+                                });
+                            },
+                        });
                     }
                 });
             }
