@@ -63,4 +63,11 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::any('course/{course}/signment_add', 'SignmentController@add');
     //签到修改
     Route::post('course/{course}/signment_edit', 'SignmentController@edit');
+    //签到依据页面（文件）
+    Route::get('course/{course}/signment_file', 'SignmentController@file');
+    // 添加如下路由
+    Route::post('course/{course}/signment/upload/file', 'SignmentController@uploadFile');
+    Route::delete('course/{course}/signment/upload/file', 'SignmentController@deleteFile');
+    Route::post('course/{course}/signment/upload/folder', 'SignmentController@createFolder');
+    Route::delete('course/{course}/signment/upload/folder', 'SignmentController@deleteFolder');
 });

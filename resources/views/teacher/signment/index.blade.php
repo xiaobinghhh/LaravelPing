@@ -87,11 +87,14 @@
                                     layui.use('layer', function () {
                                         var layer = layui.layer;
                                         layer.msg(data.msg, {icon: 1});
+                                        //表格刷新
+                                        $("#SignTable").bootstrapTable('refresh');
                                     });
                                 } else {
                                     layui.use('layer', function () {
                                         var layer = layui.layer;
                                         layer.msg(data.msg, {icon: 2});
+                                        $("#SignTable").bootstrapTable('refresh');
                                     });
                                 }
                             },
@@ -99,6 +102,7 @@
                                 layui.use('layer', function () {
                                     var layer = layui.layer;
                                     layer.msg("请求出错，请重试", {icon: 2});
+                                    $("#SignTable").bootstrapTable('refresh');
                                 });
                             },
                         });

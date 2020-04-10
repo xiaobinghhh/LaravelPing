@@ -7,9 +7,23 @@ use App\Application\Signment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+//签到依据新增
+use App\Services\UploadsManager;
+use App\Http\Requests\UploadFileRequest;
+use App\Http\Requests\UploadNewFolderRequest;
+use Illuminate\Support\Facades\File;
 
 class SignmentController extends Controller
 {
+    //签到依据时使用的管理工具
+    protected $manager;
+
+    //创建时注入管理工具依赖
+    public function __construct(UploadsManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
     //签到评分
     public function ping(Course $course)
     {
@@ -128,7 +142,7 @@ class SignmentController extends Controller
         }
     }
 
-
+    //编辑签到
     public function edit(Request $request, Course $course)
     {
         //初始化返回结果
@@ -175,6 +189,114 @@ class SignmentController extends Controller
         $flag = $signment->save() ? 1 : 0;
         $result['flag'] = $flag;//记录更新结果，成功1，失败0
         return json_encode($result);
+    }
+
+    //签到依据
+    public function file(Request $request, Course $course)
+    {
+        $folder = $request->get('folder');
+        $data = $this->manager->folderInfo($folder);
+        $data['course'] = $course;
+        return view('teacher.signment.file_index', $data);
+    }
+
+    /**
+     * 创建新目录
+     * @param UploadNewFolderRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createFolder(UploadNewFolderRequest $request)
+    {
+        $new_folder = $request->get('new_folder');
+        $folder = $request->get('folder') . '/' . $new_folder;
+
+        $result = $this->manager->createDirectory($folder);
+
+        if ($result === true) {
+            return redirect()
+                ->back()
+                ->withSuccess("目录 '$new_folder' 已创建");
+        }
+
+        $error = $result ?: "创建目录时出错";
+        return redirect()
+            ->back()
+            ->withErrors([$error]);
+    }
+
+    /**
+     * 删除文件
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteFile(Request $request)
+    {
+        $del_file = $request->get('del_file');
+        $path = $request->get('folder') . '/' . $del_file;
+
+        $result = $this->manager->deleteFile($path);
+
+        if ($result === true) {
+            return redirect()
+                ->back()
+                ->withSuccess("文件 '$del_file' 已删除");
+        }
+
+        $error = $result ?: "删除文件时出错";
+        return redirect()
+            ->back()
+            ->withErrors([$error]);
+    }
+
+    /**
+     * 删除目录
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteFolder(Request $request)
+    {
+        $del_folder = $request->get('del_folder');
+        $folder = $request->get('folder') . '/' . $del_folder;
+
+        $result = $this->manager->deleteDirectory($folder);
+
+        if ($result === true) {
+            return redirect()
+                ->back()
+                ->withSuccess("目录 '$del_folder' 已删除");
+        }
+
+        $error = $result ?: "删除目录时出错";
+        return redirect()
+            ->back()
+            ->withErrors([$error]);
+    }
+
+    /**
+     * 上传文件
+     * @param UploadFileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function uploadFile(UploadFileRequest $request)
+    {
+        $file = $_FILES['file'];
+        $fileName = $request->get('file_name');
+        $fileName = $fileName ?: $file['name'];
+        $path = str_finish($request->get('folder'), '/') . $fileName;
+        $content = File::get($file['tmp_name']);
+
+        $result = $this->manager->saveFile($path, $content);
+
+        if ($result === true) {
+            return redirect()
+                ->back()
+                ->withSuccess("文件 '$fileName' 已上传");
+        }
+
+        $error = $result ?: "上传文件时出错";
+        return redirect()
+            ->back()
+            ->withErrors([$error]);
     }
 
 }
