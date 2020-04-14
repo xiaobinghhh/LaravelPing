@@ -70,6 +70,7 @@ return [
             'url' => env('APP_URL') . '/public/upload/',
         ],
 
+        //签到依据文件夹
         'signments' => [
             'driver' => 'local',
             'root' => public_path('signments'),
@@ -77,6 +78,13 @@ return [
             'url' => env('APP_URL') . '/public/signments/',
         ],
 
+        //课程作业文件夹
+        'homeworks' => [
+            'driver' => 'local',
+            'root' => public_path('homeworks'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/public/homeworks/',
+        ]
     ],
 
 ];

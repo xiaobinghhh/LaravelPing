@@ -76,12 +76,12 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('作业列表','welcome1.html')">
+                        <a onclick="xadmin.add_tab('作业列表','{{url("course/".$course->no."/homework")}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>作业列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('作业评分','member-list.html')">
+                        <a onclick="xadmin.add_tab('作业评分','{{url("course/".$course->no."/homework_ping")}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>作业评分</cite></a>
                     </li>

@@ -31,7 +31,7 @@
     <div class="row page-title-row">
         <div class="col-md-6">
             <h3 class="pull-left">Signments</h3>
-            <div class="pull-left">
+            <div class="pull-left" style="padding-top: 10px">
                 <ul class="breadcrumb">
                     @foreach ($breadcrumbs as $path => $disp)
                         <li><a href="{{url('course/'.$course->no.'/signment_file?folder='.$path)}}">{{ $disp }}</a>
@@ -41,7 +41,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-6 text-right" style="padding-top: 10px;">
             <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#modal-folder-create">
                 <i class="fa fa-plus-circle"></i> 新目录
             </button>
@@ -53,27 +53,11 @@
 
     <div class="row">
         <div class="col-sm-12">
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <strong>糟糕!</strong>
-                    出错了.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (Session::has('success'))
-                <div class="alert alert-success">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>
-                        <i class="fa fa-check-circle fa-lg fa-fw"></i> 成功.
-                    </strong>
-                    {{ Session::get('success') }}
-                </div>
-            @endif
-            <table id="uploads-table" class="table table-striped table-bordered">
+            @include('partials.errors')
+            @include('partials.success')
+            <table id="uploads-table" class="table table-striped table-bordered" data-undefined-text="-"
+                   data-striped="true" data-sort-order="asc" data-sort-stable="true" data-pagination="true"
+                   data-page-number="1" data-page-size="10" data-search="true">
                 <thead>
                 <tr>
                     <th>文件名</th>
@@ -279,7 +263,7 @@
                     </div>
                     <div class="form-group">
                         <label for="file_name" class="col-sm-3 control-label">
-                            选择的文件
+                            文件别名
                         </label>
                         <div class="col-sm-4">
                             <input type="text" id="file_name" name="file_name" class="form-control">
@@ -344,7 +328,13 @@
 
     // 初始化数据
     $(function () {
-        $("#uploads-table").bootstrapTable();
+        $("#uploads-table").bootstrapTable({
+            search: true,                      //是否显示表格搜索
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            pageSize: 5,                     //每页的记录行数（*）
+        });
     });
 
 </script>

@@ -20,4 +20,10 @@ class Course extends Model
     {
         return $this->belongsToMany('App\Application\Student', 'student_course', 'course_no', 'student_no', 'no', 'no');
     }
+
+    //课程和作业一对多
+    public function homeworks()
+    {
+        return $this->hasMany('App\Application\Homework', 'course_no', 'no');
+    }
 }

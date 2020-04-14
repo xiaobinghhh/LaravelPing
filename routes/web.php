@@ -53,6 +53,7 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     //课程-欢迎页
     Route::get('course/{course}/welcome', 'CourseController@welcome');
 
+
     //签到评分页面
     Route::get('course/{course}/signment_ping', 'SignmentController@ping');
     //签到列表内容
@@ -70,4 +71,11 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::delete('course/{course}/signment/upload/file', 'SignmentController@deleteFile');
     Route::post('course/{course}/signment/upload/folder', 'SignmentController@createFolder');
     Route::delete('course/{course}/signment/upload/folder', 'SignmentController@deleteFolder');
+
+
+    //作业列表
+    Route::resource('course/{course}/homework', 'HomeworkController');
+    //作业评分
+    Route::get('course/{course}/homework_ping', 'HomeworkController@ping');
+
 });

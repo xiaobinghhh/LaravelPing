@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Dflydev\ApacheMimeTypes\PhpRepository;
 use Illuminate\Support\Facades\Storage;
 
-class UploadsManager
+class SignmentUploadsManager
 {
     protected $disk;
     protected $mimeDetect;

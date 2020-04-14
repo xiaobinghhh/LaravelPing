@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 //签到依据新增
-use App\Services\UploadsManager;
+use App\Services\SignmentUploadsManager;
 use App\Http\Requests\UploadFileRequest;
 use App\Http\Requests\UploadNewFolderRequest;
 use Illuminate\Support\Facades\File;
@@ -19,7 +19,7 @@ class SignmentController extends Controller
     protected $manager;
 
     //创建时注入管理工具依赖
-    public function __construct(UploadsManager $manager)
+    public function __construct(SignmentUploadsManager $manager)
     {
         $this->manager = $manager;
     }
