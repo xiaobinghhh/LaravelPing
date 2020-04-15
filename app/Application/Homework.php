@@ -15,4 +15,11 @@ class Homework extends Model
     {
         return $this->belongsTo('App\Application\Course', 'course_no', 'no');
     }
+
+    //作业和作业提交一对多
+    public function commits()
+    {
+        //外键就是不是自己表的键
+        return $this->hasMany('App\Application\StudentHomework', 'homework_course_id', 'id');
+    }
 }

@@ -77,5 +77,11 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::resource('course/{course}/homework', 'HomeworkController');
     //作业评分
     Route::get('course/{course}/homework_ping', 'HomeworkController@ping');
+    //作业评分表头
+    Route::get('course/{course}/homework_ping_columns', 'HomeworkController@columns');
+    //作业评分列表内容
+    Route::get('course/{course}/homework_ping_list', 'HomeworkController@list');
+    //作业评分编辑
+    Route::post('course/{course}/homework_ping_edit', 'HomeworkController@ping_edit');
 
 });

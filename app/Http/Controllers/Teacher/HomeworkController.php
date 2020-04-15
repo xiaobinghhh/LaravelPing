@@ -233,10 +233,133 @@ class HomeworkController extends Controller
     //作业评分
     public function ping(Course $course)
     {
-        //获取课程发布的作业
         $homeworks = $course->homeworks()->get();
-        //获取选了这门课程的学生
+        return view('teacher.homework.ping', compact('course', 'homeworks'));
+    }
+
+    //作业评分表头
+    public function columns(Course $course)
+    {
+        $homework_ping_columns = array();
+        $student_no = array(
+            'colname' => 'student_no',
+            'colalias' => '学号',
+        );
+        //表格第一行，学号
+        array_push($homework_ping_columns, $student_no);
+        $student_name = array(
+            'colname' => 'student_name',
+            'colalias' => '姓名',
+        );
+        //表格第二行，学生姓名
+        array_push($homework_ping_columns, $student_name);
+        //获取课程作业
+        $homeworks = $course->homeworks()->get();
+        //接下来i行为作业成绩行
+        foreach ($homeworks as $homework) {
+            $temp = array(
+                'colname' => strval($homework->id),
+                'colalias' => $homework->name
+            );
+            array_push($homework_ping_columns, $temp);
+        }
+        $homework_score = array(
+            'colname' => 'score',
+            'colalias' => '作业得分',
+        );
+        //最后一行，签到成绩
+        array_push($homework_ping_columns, $homework_score);
+        return json_encode($homework_ping_columns);
+    }
+
+    //作业评分列表数据
+    public function list(Course $course)
+    {
+        //获取课程学生
         $students = $course->students()->get();
-        return view('teacher.homework.ping', compact('homeworks'));
+        $data = array();
+        foreach ($students as $student) {
+            $_data = array(
+                'student_no' => $student->no,
+                'student_name' => $student->name,
+            );
+            //获取课程作业
+            $homeworks = $course->homeworks()->get();
+            $homework_score = 0;//课程成绩，由课程提交记录求均值获得
+            //遍历课程作业，得到该生课程作业包括成绩等信息
+            foreach ($homeworks as $homework) {
+                //该学生该门作业的提交记录
+                $commits = $homework->commits()->where('student_no', $student->no)->get();
+                //计算该生各次作业成绩
+                foreach ($commits as $commit) {
+                    $homework_score += $commit->homework_score;//获得课程作业总分
+                }
+                //获得该生提交记录中记录的对应次作业的成绩
+                $commit = $commits->where('homework_course_id', '=', $homework->id)->first();
+                //若找到提交记录，说明该生已提交作业
+                if ($commit) {
+                    $_data[$homework->id] = $commit->homework_score;
+                } //没有找到提交记录，说明该生未提交该次作业，记位0分
+                else {
+                    $_data[$homework->id] = 0;
+                }
+            }
+            //将课程作业总分除以作业数，得到学生作业分数
+            $_data['score'] = $homework_score / count($homeworks);
+
+            array_push($data, $_data);
+        }
+        return json_encode($data);
+    }
+
+    //作业评分分数修改
+    public function ping_edit(Request $request, Course $course)
+    {
+        //初始化返回结果
+        $result = [
+            'flag' => 1,
+            'msg' => '修改成功',
+        ];
+        //获取编辑行的学生学号
+        $student_no = $request->input('student_no');
+        //获取编辑行的各作业成绩
+        $homework_scores = $request->except('student_no', 'student_name', 'score');
+        //遍历各作业的成绩，找到修改的一项后修改
+        foreach ($homework_scores as $k => $v) {
+            //查找该学生$k作业的提交记录
+            $commit = DB::table('student_homework')->where([
+                ['homework_course_id', '=', $k],
+                ['student_no', '=', $student_no]
+            ])->first();
+            //查找到该次作业的提交记录
+            if ($commit != null) {
+                //检查输入成绩格式
+                //格式正确
+                if (is_numeric($v) && $v >= 0 && $v <= 100) {
+                    //成绩做了修改,进行修改
+                    if ($commit->homework_score != $v) {
+                        //更新作业提交记录的作业成绩
+                        $flag = DB::table('student_homework')->where([
+                            ['homework_course_id', '=', $k],
+                            ['student_no', '=', $student_no]
+                        ])->update(['homework_score' => $v]) ? 1 : 0;
+                        $result['flag'] = $flag;
+                        return json_encode($result);
+                    }//成绩没做修改
+                    else {
+                        $result['flag'] = 0;
+                        $result['msg'] = '学生未提交作业无法修改，请重试';
+                        return json_encode($result);
+                    }
+                }//格式错误
+                else {
+                    $result['flag'] = 0;
+                    $result['msg'] = '成绩编辑格式错误，应为0-100间的整数';
+                    return json_encode($result);
+                }
+            } else {
+                continue;
+            }
+        }
     }
 }

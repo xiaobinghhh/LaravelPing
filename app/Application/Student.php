@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    //
     //定义关联的数据表
     protected $table = 'students';
 
@@ -22,6 +21,5 @@ class Student extends Model
         //外键就是不是自己表的键
         return $this->hasMany('App\Application\Signment', 'student_no', 'no');
     }
-
 
 }
