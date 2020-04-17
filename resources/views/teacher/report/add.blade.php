@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|布置作业</title>
+    <title>课程评分管理系统|发布报告</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -30,24 +30,24 @@
 <div class="container" z-index="-1">
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
-            <a type="button" class="btn btn-default" href="{{url("course/".$course->no."/homework")}}"><span
+            <a type="button" class="btn btn-default" href="{{url("course/".$course->no."/report")}}"><span
                         class="glyphicon glyphicon-chevron-left"></span>返回</a>
         </div>
     </div>
     @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form action="{{url("course/".$course->id."/homework")}}" method="post" id="form_homework_add"
+            <form action="{{url("course/".$course->id."/report")}}" method="post" id="form_report_add"
                   enctype="multipart/form-data" style="padding-top: 10px">
                 {{csrf_field()}}
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th><i style="color: red;">*</i>作业名称</th>
+                        <th><i style="color: red;">*</i>报告名称</th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="text" size="16" name="homework_name" class="form-control"
-                                       placeholder="作业名称可以写16个字">
+                                <input type="text" size="16" name="report_name" class="form-control"
+                                       placeholder="报告名称可以写16个字">
                             </div>
                         </td>
                     </tr>
@@ -70,19 +70,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><i style="color: red;">*</i>作业描述</th>
+                        <th><i style="color: red;">*</i>报告描述</th>
                         <td>
                             <div class="col-sm-6">
-                                <textarea name="homework_desc" class="form-control" rows="4"></textarea>
+                                <textarea name="report_desc" class="form-control" rows="4"></textarea>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th>作业文件</th>
+                        <th>报告文件</th>
                         <td>
                             <div class="col-sm-6">
                                 <label class="sr-only" for="inputfile">选择</label>
-                                <input type="file" id="inputfile" name="homework_file">
+                                <input type="file" id="inputfile" name="report_file">
                             </div>
                         </td>
                     </tr>
@@ -90,7 +90,7 @@
                         <th></th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="submit" class="btn btn-primary" value="布置">
+                                <input type="submit" class="btn btn-primary" value="发布">
                             </div>
                         </td>
                     </tr>
@@ -141,13 +141,13 @@
         return date1 < date2;
     };
 
-    $("#form_homework_add").validate({
+    $("#form_report_add").validate({
         rules: {
-            homework_name: {
+            report_name: {
                 required: true,
                 maxlength: 16,
             },
-            homework_desc: {
+            report_desc: {
                 required: true,
             },
             start_at: {
@@ -159,18 +159,18 @@
             },
         },
         messages: {
-            homework_name: {
-                required: "请输入作业名称",
-                maxlength: "作业名称最多输入16个字",
+            report_name: {
+                required: "请输入报告名称",
+                maxlength: "报告名称最多输入16个字",
             },
-            homework_desc: {
-                required: "请描述作业内容",
+            report_desc: {
+                required: "请描述报告内容",
             },
             start_at: {
-                required: "请选择作业开始日期",
+                required: "请选择报告开始日期",
             },
             end_at: {
-                required: "请选择作业结束日期",
+                required: "请选择报告结束日期",
                 compareDate: "请选择合理结束日期",
             },
         },

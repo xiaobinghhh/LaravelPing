@@ -84,6 +84,14 @@ return [
             'root' => public_path('homeworks'),
             'visibility' => 'public',
             'url' => env('APP_URL') . '/public/homeworks/',
+        ],
+
+        //课程作业文件夹
+        'reports' => [
+            'driver' => 'local',
+            'root' => public_path('reports'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/public/reports/',
         ]
     ],
 

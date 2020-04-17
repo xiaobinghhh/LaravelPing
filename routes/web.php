@@ -67,9 +67,13 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     //签到依据页面（文件）
     Route::get('course/{course}/signment_file', 'SignmentController@file');
     // 添加如下路由
+    //上传文件
     Route::post('course/{course}/signment/upload/file', 'SignmentController@uploadFile');
+    //删除文件
     Route::delete('course/{course}/signment/upload/file', 'SignmentController@deleteFile');
+    //创建目录
     Route::post('course/{course}/signment/upload/folder', 'SignmentController@createFolder');
+    //删除目录
     Route::delete('course/{course}/signment/upload/folder', 'SignmentController@deleteFolder');
 
 
@@ -83,5 +87,43 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/homework_ping_list', 'HomeworkController@list');
     //作业评分编辑
     Route::post('course/{course}/homework_ping_edit', 'HomeworkController@ping_edit');
+    //作业文件页面（文件）
+    Route::get('course/{course}/homework_file', 'HomeworkController@file');
+    // 添加如下路由
+    //作业文件的上传从其他入口操作，以下路由为文件管理
+    //删除文件
+    Route::delete('course/{course}/homework/upload/file', 'HomeworkController@deleteFile');
+    //创建目录
+    Route::post('course/{course}/homework/upload/folder', 'HomeworkController@createFolder');
+    //删除目录
+    Route::delete('course/{course}/homework/upload/folder', 'HomeworkController@deleteFolder');
+
+
+    //报告列表
+    Route::resource('course/{course}/report', 'ReportController');
+    //报告评分
+    Route::get('course/{course}/report_ping', 'ReportController@ping');
+    //报告评分表头
+    Route::get('course/{course}/report_ping_columns', 'ReportController@columns');
+    //评分列表内容
+    Route::get('course/{course}/report_ping_list', 'ReportController@list');
+    //报告评分编辑
+    Route::post('course/{course}/report_ping_edit', 'ReportController@ping_edit');
+    //报告文件页面（文件）
+    Route::get('course/{course}/report_file', 'ReportController@file');
+    // 添加如下路由
+    //报告文件的上传从其他入口操作，以下路由为文件管理
+    //删除文件
+    Route::delete('course/{course}/report/upload/file', 'ReportController@deleteFile');
+    //创建目录
+    Route::post('course/{course}/report/upload/folder', 'ReportController@createFolder');
+    //删除目录
+    Route::delete('course/{course}/report/upload/folder', 'ReportController@deleteFolder');
+
+
+    //期末考试页面
+    Route::get('course/{course}/final_exam_ping', 'FinalExamController@index');
+    //期末考试成绩表
+    Route::get('course/{course}/final_exam_list', 'FinalExamController@list');
 
 });

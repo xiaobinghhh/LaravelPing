@@ -26,4 +26,10 @@ class Course extends Model
     {
         return $this->hasMany('App\Application\Homework', 'course_no', 'no');
     }
+
+    //课程和报告一对多
+    public function reports()
+    {
+        return $this->hasMany('App\Application\Report', 'course_no', 'no');
+    }
 }

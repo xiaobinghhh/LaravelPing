@@ -14,17 +14,17 @@
     <script src="{{asset('statics/bootstrap/js/jquery.js')}}"></script>
     <script src="{{asset('statics/bootstrap/js/bootstrap.min.js')}}"></script>
     {{--引入bootstrap-table--}}
-    <script src="{{asset('statics/bootstrap-table/dist/bootstrap-table.js')}}" type="text/javascript"></script>
+    <script src="{{asset('statics/bootstrap-table/dist/bootstrap-table.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('statics/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js')}}"
             type="text/javascript"></script>
-    <link href="{{asset('statics/bootstrap-table/dist/bootstrap-table.css')}}" rel="stylesheet">
-    <script src="{{asset('statics/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.js')}}"
+    <link href="{{asset('statics/bootstrap-table/dist/bootstrap-table.min.css')}}" rel="stylesheet">
+    <script src="{{asset('statics/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"
             type="text/javascript"></script>
     {{--引入x-editable-develop--}}
-    <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.js')}}" type="text/javascript"></script>
-    {{--引入layui与xadmin的js--}}
+    <link href="{{asset('statics/bootstrap3-editable/css/bootstrap-editable.css')}}">
+    <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.min.js')}}" type="text/javascript"></script>
+    {{--引入layui的js--}}
     <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{asset('template/js/xadmin.js')}}"></script>
 
 </head>
 <body>
@@ -46,9 +46,7 @@
     <!--表格-->
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table id="SignTable" z-index="-1" dataclasses="table" data-undefined-text="-" data-striped="true"
-                   data-sort-order="asc" data-sort-stable="true" data-pagination="true" data-page-number="1"
-                   data-page-size="10" data-search="true"></table>
+            <table id="SignTable" z-index="-1"></table>
         </div>
     </div>
 </div>
@@ -65,12 +63,27 @@
                 var arr = JSON.parse(returnValue);
                 $.each(arr, function (i, item) {
                     if (item.colname.search('sign_data') !== -1) {
-                        columns.push({"field": item.colname, "title": item.colalias, "width": 100, "editable": true});
+                        columns.push({
+                            "field": item.colname, "title": item.colalias, "editable": {
+                                mode: "inline",
+                                type: 'select',
+                                source: [{value: "0", text: "缺席"}, {value: "1", text: "出勤"}]
+                            }
+                        });
                     } else {
-                        columns.push({"field": item.colname, "title": item.colalias, "width": 100, "sortable": true});
+                        columns.push({"field": item.colname, "title": item.colalias, "sortable": true});
                     }
                 });
                 $('#SignTable').bootstrapTable('destroy').bootstrapTable({
+                    undefinedText: '-',
+                    striped: true,
+                    sortable: false,
+                    sortOrder: "asc",
+                    pagination: true,
+                    showRefresh: true,
+                    search: true,
+                    pageNumber: 1,
+                    pageSize: 10,
                     columns: columns,
                     url: "{{url("course/".$course->no."/signment_list")}}",
                     onEditableSave: function (field, row, oldvalue, $el) {
@@ -83,26 +96,26 @@
                                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                             },
                             success: function (data) {
+                                //表格刷新
+                                $("#SignTable").bootstrapTable('refresh');
                                 if (data.flag === 1) {
                                     layui.use('layer', function () {
                                         var layer = layui.layer;
                                         layer.msg(data.msg, {icon: 1});
-                                        //表格刷新
-                                        $("#SignTable").bootstrapTable('refresh');
+
                                     });
                                 } else {
                                     layui.use('layer', function () {
                                         var layer = layui.layer;
                                         layer.msg(data.msg, {icon: 2});
-                                        $("#SignTable").bootstrapTable('refresh');
                                     });
                                 }
                             },
                             error: function () {
+                                $("#SignTable").bootstrapTable('refresh');
                                 layui.use('layer', function () {
                                     var layer = layui.layer;
                                     layer.msg("请求出错，请重试", {icon: 2});
-                                    $("#SignTable").bootstrapTable('refresh');
                                 });
                             },
                         });

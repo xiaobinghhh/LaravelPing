@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|作业列表</title>
+    <title>课程评分管理系统|报告列表</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -27,10 +27,10 @@
 <body>
 
 <div class="container" z-index="-1">
-    <!--布置作业按钮-->
+    <!--发布报告按钮-->
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
-            <a class="btn btn-primary" href="{{url("course/".$course->no."/homework/create")}}">布置作业</a>
+            <a class="btn btn-primary" href="{{url("course/".$course->no."/report/create")}}">发布报告</a>
         </div>
     </div>
 @include('partials.errors')
@@ -38,37 +38,37 @@
 <!--表格-->
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table id="HomeworkTable" z-index="-1" dataclasses="table" data-undefined-text="-" data-striped="true"
+            <table id="reportTable" z-index="-1" dataclasses="table" data-undefined-text="-" data-striped="true"
                    data-sort-order="asc" data-sort-stable="true" data-pagination="true" data-page-number="1"
                    data-page-size="10" data-search="true">
                 <thead>
                 <tr>
-                    <th>作业</th>
-                    <th>作业描述</th>
-                    <th>作业文件</th>
+                    <th>报告</th>
+                    <th>报告描述</th>
+                    <th>报告文件</th>
                     <th>开始日期</th>
                     <th>结束日期</th>
                     <th data-sortable="false">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($homeworks as $homework)
+                @foreach($reports as $report)
                     <tr>
-                        <td>{{$homework->name}}</td>
-                        <td>{{$homework->description}}</td>
-                        @if($homework->src)
-                            <td><a href="{{$homework->src}}">{{$homework->name}}</a></td>
+                        <td>{{$report->name}}</td>
+                        <td>{{$report->description}}</td>
+                        @if($report->src)
+                            <td><a href="{{$report->src}}">{{$report->name}}</a></td>
                         @else
                             <td>无</td>
                         @endif
-                        <td>{{$homework->start_at}}</td>
-                        <td>{{$homework->end_at}}</td>
+                        <td>{{$report->start_at}}</td>
+                        <td>{{$report->end_at}}</td>
                         <td>
                             <a class="btn btn-xs btn-success"
-                               href="{{url('course/'.$course->no.'/homework/'.$homework->homework_id.'/edit')}}">
+                               href="{{url('course/'.$course->no.'/report/'.$report->report_id.'/edit')}}">
                                 <i class="fa fa-times-circle fa-lg"></i>修改</a>
                             <button type="button" class="btn btn-xs btn-danger"
-                                    onclick="delete_homework({{ $homework->id }})">
+                                    onclick="delete_report({{ $report->id }})">
                                 <i class="fa fa-times-circle fa-lg"></i>
                                 删除
                             </button>
@@ -83,15 +83,15 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#HomeworkTable').bootstrapTable();
+        $('#reportTable').bootstrapTable();
     });
 
-    /*作业-删除*/
-    function delete_homework(id) {
-        layer.confirm('确认要删除该作业吗？', {
+    /*报告-删除*/
+    function delete_report(id) {
+        layer.confirm('确认要删除该报告吗？', {
             btn: ['确定', '取消']
         }, function () {
-            $.post("{{url('course/'.$course->no.'/homework')}}/" + id, {
+            $.post("{{url('course/'.$course->no.'/report')}}/" + id, {
                 '_method': 'delete',
                 '_token': '{{csrf_token()}}'
             }, function (data) {

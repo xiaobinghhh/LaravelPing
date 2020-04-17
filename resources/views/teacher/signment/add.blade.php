@@ -26,6 +26,7 @@
                         class="glyphicon glyphicon-chevron-left"></span>返回</a>
         </div>
     </div>
+    @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form action="" method="post">
@@ -74,19 +75,6 @@
                 all_box.prop('checked', true);
             }
         });
-
-        @if (count($errors) > 0)
-        //以JavaScript弹窗形式输出错误的内容
-        var allError = '';
-        @foreach ($errors->all() as $error)
-            allError += "{{$error}}<br/>";
-        @endforeach
-        //输出错误信息
-        layui.use('layer', function () {
-            var layer = layui.layer;
-            layer.msg(allError, {icon: 2});
-        });
-        @endif
     });
 </script>
 </html>

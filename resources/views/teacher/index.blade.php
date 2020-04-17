@@ -47,8 +47,6 @@
         <div id="tab_show"></div>
     </div>
 </div>
-<div class="page-content-bg"></div>
-<style id="theme_style"></style>
 <!-- 右侧主体结束 -->
 <!-- 中部结束 -->
 <script>

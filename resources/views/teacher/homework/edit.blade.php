@@ -34,11 +34,12 @@
                         class="glyphicon glyphicon-chevron-left"></span>返回</a>
         </div>
     </div>
+    @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form action="{{url("course/".$course->no."/homework/".$homework->homework_id)}}" method="post"
                   id="form_homework_edit" enctype="multipart/form-data" style="padding-top: 10px">
-                {{method_field('PUT')}}
+                <input type="hidden" name="_method" value="put">
                 {{csrf_field()}}
                 <table class="table">
                     <tbody>
@@ -84,7 +85,7 @@
                     </tr>
                     <tr>
                         <th>作业文件</th>
-                        @if($homework->src)
+                        @if($homework->src!=null&&$homework->src!='')
                             <td>
                                 <div class="col-sm-6">
                                     附件：<a href="{{$homework->src}}">{{$homework->name}}</a>

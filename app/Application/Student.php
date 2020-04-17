@@ -22,4 +22,10 @@ class Student extends Model
         return $this->hasMany('App\Application\Signment', 'student_no', 'no');
     }
 
+    //学生和期末考试一对多
+    public function final_exam()
+    {
+        return $this->hasMany('App\Application\StudentFinalExam', 'student_no', 'no');
+    }
+
 }

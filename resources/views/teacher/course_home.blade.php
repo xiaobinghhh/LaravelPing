@@ -20,7 +20,7 @@
 <body>
 <!-- 顶部开始 -->
 <div class="container">
-    <div class="logo"><a href="{{url('/teacher/index')}}">课程评分管理系统</a></div>
+    <div class="logo"><a onclick="back_home()">课程评分管理系统</a></div>
     <div class="left_open">
         <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
     </div>
@@ -58,12 +58,12 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('签到评分','{{url("course/".$course->no."/signment_ping")}}')">
+                        <a onclick="xadmin.add_tab('签到评分','{{url("course/".$course->no."/signment_ping")}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>签到评分</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('签到依据','{{url('course/'.$course->no.'/signment_file')}}')">
+                        <a onclick="xadmin.add_tab('签到依据','{{url('course/'.$course->no.'/signment_file')}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>签到依据</cite></a>
                     </li>
@@ -76,14 +76,19 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('作业列表','{{url("course/".$course->no."/homework")}}')">
+                        <a onclick="xadmin.add_tab('作业列表','{{url("course/".$course->no."/homework")}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>作业列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('作业评分','{{url("course/".$course->no."/homework_ping")}}')">
+                        <a onclick="xadmin.add_tab('作业评分','{{url("course/".$course->no."/homework_ping")}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>作业评分</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('作业文件','{{url("course/".$course->no."/homework_file")}}',true)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>作业文件</cite></a>
                     </li>
                 </ul>
             </li>
@@ -94,14 +99,19 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('签到评分','welcome1.html')">
+                        <a onclick="xadmin.add_tab('报告列表','{{url("course/".$course->no."/report")}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>报告列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('签到依据','member-list.html')">
+                        <a onclick="xadmin.add_tab('报告评分','{{url("course/".$course->no."/report_ping")}}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>报告评分</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('报告文件','{{url("course/".$course->no."/report_file")}}',true)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>报告文件</cite></a>
                     </li>
                 </ul>
             </li>
@@ -112,12 +122,12 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('期末评分','welcome1.html')">
+                        <a onclick="xadmin.add_tab('期末评分','{{url("course/".$course->no."/final_exam_ping")}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>期末评分</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('期末试卷','member-list.html')">
+                        <a onclick="xadmin.add_tab('期末试卷','{{url("course/".$course->no."/final_exam_file")}}')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>期末试卷</cite></a>
                     </li>
@@ -152,10 +162,16 @@
         <div id="tab_show"></div>
     </div>
 </div>
-<div class="page-content-bg"></div>
 <!-- 右侧主体结束 -->
 <!-- 中部结束 -->
 <script>
+    function back_home() {
+        var tabtitle = $(".layui-tab-title li");
+        $.each(tabtitle, function () {
+            parent.element.tabDelete('xbs_tab', $(this).attr("lay-id"));
+        })
+        window.location.href = "{{url('teacher/index')}}";
+    };
 
 </script>
 </body>

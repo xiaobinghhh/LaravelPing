@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|布置作业</title>
+    <title>课程评分管理系统|编辑报告</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -30,67 +30,81 @@
 <div class="container" z-index="-1">
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
-            <a type="button" class="btn btn-default" href="{{url("course/".$course->no."/homework")}}"><span
+            <a type="button" class="btn btn-default" href="{{url("course/".$course->no."/report")}}"><span
                         class="glyphicon glyphicon-chevron-left"></span>返回</a>
         </div>
     </div>
     @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form action="{{url("course/".$course->id."/homework")}}" method="post" id="form_homework_add"
-                  enctype="multipart/form-data" style="padding-top: 10px">
+            <form action="{{url("course/".$course->no."/report/".$report->report_id)}}" method="post"
+                  id="form_report_edit" enctype="multipart/form-data" style="padding-top: 10px">
+                <input type="hidden" name="_method" value="put">
                 {{csrf_field()}}
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th><i style="color: red;">*</i>作业名称</th>
+                        <th><i style="color: red;">*</i>报告名称</th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="text" size="16" name="homework_name" class="form-control"
-                                       placeholder="作业名称可以写16个字">
+                                <input type="text" size="16" name="report_name" class="form-control"
+                                       value="{{$report->name}}" placeholder="报告名称可以写16个字">
                             </div>
+                            <label for="report_name" class="error"></label>
                         </td>
                     </tr>
                     <tr>
                         <th><i style="color: red;">*</i>开始日期</th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="text" placeholder="选择日期" class="form-control"
-                                       name="start_at" id="start_at" readonly>
+                                <input type="text" id="start_at" placeholder="选择日期" class="form-control"
+                                       name="start_at" readonly value="{{$report->start_at}}">
                             </div>
+                            <label for="start_at" class="error"></label>
                         </td>
                     </tr>
                     <tr>
                         <th><i style="color: red;">*</i>结束日期</th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="text" placeholder="选择日期" class="form-control"
-                                       name="end_at" id="end_at" readonly>
+                                <input type="text" id="end_at" placeholder="选择日期" class="form-control"
+                                       name="end_at" readonly value="{{$report->end_at}}">
                             </div>
+                            <label for="end_at" class="error"></label>
                         </td>
                     </tr>
                     <tr>
-                        <th><i style="color: red;">*</i>作业描述</th>
+                        <th><i style="color: red;">*</i>报告描述</th>
                         <td>
-                            <div class="col-sm-6">
-                                <textarea name="homework_desc" class="form-control" rows="4"></textarea>
+                            <div class=" col-sm-6">
+                                <textarea name="report_desc" class="form-control"
+                                          rows="4">{{$report->description}}</textarea>
                             </div>
+                            <label for="report_desc" class="error"></label>
                         </td>
                     </tr>
                     <tr>
-                        <th>作业文件</th>
-                        <td>
-                            <div class="col-sm-6">
-                                <label class="sr-only" for="inputfile">选择</label>
-                                <input type="file" id="inputfile" name="homework_file">
-                            </div>
-                        </td>
+                        <th>报告文件</th>
+                        @if($report->src!=null&&$report->src!='')
+                            <td>
+                                <div class="col-sm-6">
+                                    附件：<a href="{{$report->src}}">{{$report->name}}</a>
+                                </div>
+                            </td>
+                        @else
+                            <td>
+                                <div class="col-sm-6">
+                                    <label class="sr-only" for="inputfile">选择</label>
+                                    <input type="file" id="inputfile" name="report_file">
+                                </div>
+                            </td>
+                        @endif
                     </tr>
                     <tr>
                         <th></th>
                         <td>
                             <div class="col-sm-6">
-                                <input type="submit" class="btn btn-primary" value="布置">
+                                <input type="submit" class="btn btn-primary" value="更新">
                             </div>
                         </td>
                     </tr>
@@ -114,7 +128,6 @@
 
 {{--引入jquery.validation--}}
 <script type="text/javascript" src="{{asset('statics/jquery.validation/jquery.validate.js')}}"></script>
-<script type="text/javascript" src="{{asset('statics/jquery.validation/additional-methods.js')}}"></script>
 <script type="text/javascript" src="{{asset('statics/jquery.validation/validate-methods.js')}}"></script>
 <script type="text/javascript" src="{{asset('statics/jquery.validation/messages_zh.js')}}"></script>
 
@@ -124,7 +137,6 @@
         format: 'yyyy-mm-dd',
         language: "zh-CN",
         autoclose: true,
-
     });
 
     $('#end_at').datetimepicker({
@@ -141,13 +153,13 @@
         return date1 < date2;
     };
 
-    $("#form_homework_add").validate({
+    $("#form_report_edit").validate({
         rules: {
-            homework_name: {
+            report_name: {
                 required: true,
                 maxlength: 16,
             },
-            homework_desc: {
+            report_desc: {
                 required: true,
             },
             start_at: {
@@ -159,22 +171,21 @@
             },
         },
         messages: {
-            homework_name: {
-                required: "请输入作业名称",
-                maxlength: "作业名称最多输入16个字",
+            report_name: {
+                required: "请输入报告名称",
+                maxlength: "报告名称最多输入16个字",
             },
-            homework_desc: {
-                required: "请描述作业内容",
+            report_desc: {
+                required: "请描述报告内容",
             },
             start_at: {
-                required: "请选择作业开始日期",
+                required: "请选择报告开始日期",
             },
             end_at: {
-                required: "请选择作业结束日期",
+                required: "请选择报告结束日期",
                 compareDate: "请选择合理结束日期",
             },
         },
     });
-
 </script>
 </html>
