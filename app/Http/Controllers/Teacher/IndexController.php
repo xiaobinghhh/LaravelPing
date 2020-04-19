@@ -57,7 +57,7 @@ class IndexController extends Controller
                 if (Hash::check(Input::get('password_o'), $user->password)) {
                     $user->password = bcrypt(Input::get('password'));
                     $user->update();
-                    return back()->withErrors('密码修改成功');
+                    return back()->withSuccess('密码修改成功');
                 } else {
                     return back()->withErrors('旧密码错误');
                 }

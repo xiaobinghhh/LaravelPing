@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title>课程评分管理系统|修改密码</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -14,6 +14,10 @@
     <script type="text/javascript" src="{{asset('template/js/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
     <script type="text/javascript" src="{{asset('template/js/xadmin.js')}}"></script>
+    {{--引入bootstrap--}}
+    <link href="{{asset('statics/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+    <script src="{{asset('statics/bootstrap/js/jquery.js')}}"></script>
+    <script src="{{asset('statics/bootstrap/js/bootstrap.min.js')}}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -24,6 +28,8 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
+        @include('partials.errors')
+        @include('partials.success')
         <form method="post" action="" class="layui-form">
             {{csrf_field()}}
             <div class="layui-form-item">
@@ -55,22 +61,6 @@
         </form>
     </div>
 </div>
-<script>
-    $(function () {
-        @if (count($errors) > 0)
-        //以JavaScript弹窗形式输出错误的内容
-        var allError = '';
-        @foreach ($errors->all() as $error)
-            allError += "{{$error}}<br/>";
-        @endforeach
-        //输出错误信息
-        layui.use('layer', function () {
-            var layer = layui.layer;
-            layer.msg(allError);
-        });
-        @endif
-    })
-</script>
 
 </body>
 

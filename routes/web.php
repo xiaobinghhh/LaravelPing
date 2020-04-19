@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'teacher', 'nam
     //修改密码路由
     Route::any('changePass', 'IndexController@changePass');
 
+
 });
 
 //课程评分系统界面路由
@@ -53,6 +54,16 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     //课程-欢迎页
     Route::get('course/{course}/welcome', 'CourseController@welcome');
 
+    //评分项页面路由
+    Route::get('course/{course}/basis', 'BasisController@index');
+    //评分项列表路由
+    Route::get('course/{course}/basis/list', 'BasisController@list');
+    //评分项添加路由
+    Route::any('course/{course}/basis/add', 'BasisController@add');
+    //评分项编辑路由
+    Route::post('course/{course}/basis/edit', 'BasisController@edit');
+    //评分项删除路由
+    Route::delete('course/{course}/basis/{basis}', 'BasisController@delete');
 
     //签到评分页面
     Route::get('course/{course}/signment_ping', 'SignmentController@ping');
@@ -125,5 +136,16 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/final_exam_ping', 'FinalExamController@index');
     //期末考试成绩表
     Route::get('course/{course}/final_exam_list', 'FinalExamController@list');
-
+    //期末考试成绩编辑
+    Route::post('course/{course}/final_exam_edit', 'FinalExamController@edit');
+    //期末考试试卷页面
+    Route::get('course/{course}/final_exam_file', 'FinalExamController@file');
+    //上传文件
+    Route::post('course/{course}/final_exam/upload/file', 'FinalExamController@uploadFile');
+    //删除文件
+    Route::delete('course/{course}/final_exam/upload/file', 'FinalExamController@deleteFile');
+    //创建目录
+    Route::post('course/{course}/final_exam/upload/folder', 'FinalExamController@createFolder');
+    //删除目录
+    Route::delete('course/{course}/final_exam/upload/folder', 'FinalExamController@deleteFolder');
 });

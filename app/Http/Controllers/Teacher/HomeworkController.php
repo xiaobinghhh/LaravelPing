@@ -349,7 +349,7 @@ class HomeworkController extends Controller
             if ($commit != null) {
                 //检查输入成绩格式
                 //格式正确
-                if (is_numeric($v) && $v >= 0 && $v <= 100) {
+                if (is_numeric($v)&&is_int((int)$v) && $v >= 0 && $v <= 100) {
                     //成绩做了修改,进行修改
                     if ($commit->homework_score != $v) {
                         //更新作业提交记录的作业成绩

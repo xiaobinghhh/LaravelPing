@@ -187,7 +187,12 @@ class SignmentController extends Controller
         }
         //更新
         $flag = $signment->save() ? 1 : 0;
-        $result['flag'] = $flag;//记录更新结果，成功1，失败0
+        //更新结果
+        $result['flag'] = $flag;
+        //记录更新失败，修改提示为失败
+        if ($flag == 0) {
+            $result['msg'] = '更新失败，请重试';
+        }
         return json_encode($result);
     }
 

@@ -32,4 +32,10 @@ class Course extends Model
     {
         return $this->hasMany('App\Application\Report', 'course_no', 'no');
     }
+
+    //课程和评分依据一对多
+    public function basis()
+    {
+        return $this->hasMany('App\Application\Basis','course_no','no');
+    }
 }

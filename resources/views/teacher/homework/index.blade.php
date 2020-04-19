@@ -97,7 +97,6 @@
             }, function (data) {
                 if (data.status === 0) {
                     layui.use('layer', function () {
-                        location.href = location.href;
                         var layer = layui.layer;
                         layer.msg(data.msg, {icon: 1});
 
@@ -108,6 +107,7 @@
                         layer.msg(data.msg, {icon: 2});
                     });
                 }
+                $('#HomeworkTable').bootstrapTable('refresh');
             })
         }, function () {
         });

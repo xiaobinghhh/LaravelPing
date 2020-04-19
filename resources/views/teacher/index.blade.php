@@ -25,7 +25,7 @@
         <li class="layui-nav-item">
             <a href="javascript:;">{{session('teacherInfo')['name']}}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a onclick="xadmin.open('修改密码','{{url('teacher/changePass')}}',500,400,false)">修改密码</a></dd>
+                <dd><a onclick="xadmin.open('修改密码','{{url('teacher/changePass')}}',600,600,false)">修改密码</a></dd>
                 <dd><a href="{{url('teacher/logout')}}">退出</a></dd>
             </dl>
         </li>

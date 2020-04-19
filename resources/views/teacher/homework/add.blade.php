@@ -37,7 +37,7 @@
     @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form action="{{url("course/".$course->id."/homework")}}" method="post" id="form_homework_add"
+            <form action="{{url("course/".$course->no."/homework")}}" method="post" id="form_homework_add"
                   enctype="multipart/form-data" style="padding-top: 10px">
                 {{csrf_field()}}
                 <table class="table">

@@ -92,6 +92,14 @@ return [
             'root' => public_path('reports'),
             'visibility' => 'public',
             'url' => env('APP_URL') . '/public/reports/',
+        ],
+
+        //期末试卷文件夹
+        'final_exams' => [
+            'driver' => 'local',
+            'root' => public_path('final_exams'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/public/final_exams/',
         ]
     ],
 

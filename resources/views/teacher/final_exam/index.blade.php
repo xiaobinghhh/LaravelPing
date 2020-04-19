@@ -8,6 +8,7 @@
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="_token" content="{{ csrf_token() }}"/>
 
     {{--引入bootstrap--}}
     <link href="{{asset('statics/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
@@ -33,9 +34,7 @@
     @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table id="FinalExamTable" class="table table-bordered">
-
-            </table>
+            <table id="FinalExamTable" class="table table-bordered"></table>
         </div>
     </div>
 </div>
@@ -61,9 +60,6 @@
                     field: 'student_name',
                     title: '学生姓名'
                 }, {
-                    filed: "final_exam_basis",
-                    title: '试卷'
-                }, {
                     field: 'final_exam_score',
                     title: '期末成绩',
                     editable: {
@@ -74,23 +70,35 @@
             onEditableSave: function (field, row, oldvalue, $el) {
                 $.ajax({
                     type: "post",
-                    url: "/",
+                    url: "{{url("course/".$course->no."/final_exam_edit")}}",
                     data: row,
                     dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     },
-                    success: function (data, status) {
-                        if (status == "success") {
-                            alert('提交数据成功');
+                    success: function (data) {
+                        //表格刷新
+                        $("#FinalExamTable").bootstrapTable('refresh');
+                        if (data.flag === 1) {
+                            layui.use('layer', function () {
+                                var layer = layui.layer;
+                                layer.msg(data.msg, {icon: 1});
+
+                            });
+                        } else {
+                            layui.use('layer', function () {
+                                var layer = layui.layer;
+                                layer.msg(data.msg, {icon: 2});
+                            });
                         }
                     },
                     error: function () {
-                        alert('编辑失败');
+                        $("#FinalExamTable").bootstrapTable('refresh');
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg("请求出错，请重试", {icon: 2});
+                        });
                     },
-                    complete: function () {
-                        alert('完成');
-                    }
                 });
             }
         });

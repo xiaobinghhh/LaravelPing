@@ -17,7 +17,6 @@ class CreateStudentFinalExamTable extends Migration
             $table->increments('id');
             $table->string('student_no', 11);//学号
             $table->string('course_no', 11);//课程号
-            $table->string('final_exam_basis')->nullable($value = true);//期末试卷依据
             $table->unsignedTinyInteger('final_exam_score')->default('0')->nullable($value = true);//期末考试成绩
         });
     }

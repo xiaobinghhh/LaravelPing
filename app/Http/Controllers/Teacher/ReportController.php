@@ -349,7 +349,7 @@ class ReportController extends Controller
             if ($commit != null) {
                 //检查输入成绩格式
                 //格式正确
-                if (is_numeric($v) && $v >= 0 && $v <= 100) {
+                if (is_numeric($v) && is_int((int)$v) && $v >= 0 && $v <= 100) {
                     //成绩做了修改,进行修改
                     if ($commit->report_score != $v) {
                         //更新报告提交记录的报告成绩
