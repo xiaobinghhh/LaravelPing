@@ -42,8 +42,8 @@ class IndexController extends Controller
                 'password' => 'required|between:4,18|confirmed',
             ];
             $message = [
-                'password_o.required' => '密码不能为空',
-                'password_o.between' => '密码必须在4-18位之间',
+                'password_o.required' => '旧密码 不能为空',
+                'password_o.between' => '旧密码 必须介于 4 - 18 个字符之间',
             ];
             $validator = Validator::make(Input::all(), $rules, $message);
             //输入有效性验证

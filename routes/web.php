@@ -73,6 +73,10 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/signment_columns', 'SignmentController@columns');
     //新增签到
     Route::any('course/{course}/signment_add', 'SignmentController@add');
+    //签到图表
+    Route::get('course/{course}/signment_chart', 'ChartController@signment');
+    //签到柱状图数据
+    Route::post('course/{course}/signment_chart_data', 'ChartController@signment_chart_data');
     //签到修改
     Route::post('course/{course}/signment_edit', 'SignmentController@edit');
     //签到依据页面（文件）

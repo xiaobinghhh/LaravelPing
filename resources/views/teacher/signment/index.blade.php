@@ -23,6 +23,7 @@
     {{--引入x-editable-develop--}}
     <link href="{{asset('statics/bootstrap3-editable/css/bootstrap-editable.css')}}">
     <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.min.js')}}" type="text/javascript"></script>
+
     {{--引入layui的js--}}
     <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
 
@@ -34,6 +35,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
             <a class="btn btn-primary" href="{{url("course/".$course->no."/signment_add")}}">新的签到</a>
+            <a class="btn btn-success" href="{{url("course/".$course->no."/signment_chart")}}">图表</a>
         </div>
     </div>
     <!--签到计分提示-->
