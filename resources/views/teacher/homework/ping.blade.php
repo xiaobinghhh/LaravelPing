@@ -31,7 +31,15 @@
 <body>
 
 <div class="container" z-index="-1">
-    <!--表格-->
+    <!--图表按钮-->
+    @if(count($homeworks))
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
+                <a class="btn btn-success" href="{{url("course/".$course->no."/homework_chart")}}">图表</a>
+            </div>
+        </div>
+@endif
+<!--表格-->
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             {{--课程布置了作业--}}
@@ -49,8 +57,8 @@
             @endif
         </div>
     </div>
-
 </div>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function () {

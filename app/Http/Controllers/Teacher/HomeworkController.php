@@ -486,5 +486,4 @@ class HomeworkController extends Controller
             ->back()
             ->withErrors([$error]);
     }
-
 }

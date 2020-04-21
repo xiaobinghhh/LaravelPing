@@ -44,7 +44,6 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'teacher', 'nam
     //修改密码路由
     Route::any('changePass', 'IndexController@changePass');
 
-
 });
 
 //课程评分系统界面路由
@@ -75,7 +74,7 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::any('course/{course}/signment_add', 'SignmentController@add');
     //签到图表
     Route::get('course/{course}/signment_chart', 'ChartController@signment');
-    //签到柱状图数据
+    //签到图表数据
     Route::post('course/{course}/signment_chart_data', 'ChartController@signment_chart_data');
     //签到修改
     Route::post('course/{course}/signment_edit', 'SignmentController@edit');
@@ -96,6 +95,10 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::resource('course/{course}/homework', 'HomeworkController');
     //作业评分
     Route::get('course/{course}/homework_ping', 'HomeworkController@ping');
+    //作业图表
+    Route::get('course/{course}/homework_chart', 'ChartController@homework');
+    //作业图表数据
+    Route::post('course/{course}/homework_chart_data', 'ChartController@homework_chart_data');
     //作业评分表头
     Route::get('course/{course}/homework_ping_columns', 'HomeworkController@columns');
     //作业评分列表内容
@@ -106,6 +109,8 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/homework_file', 'HomeworkController@file');
     // 添加如下路由
     //作业文件的上传从其他入口操作，以下路由为文件管理
+    //上传文件
+    Route::post('course/{course}/homework/upload/file', 'HomeworkController@uploadFile');
     //删除文件
     Route::delete('course/{course}/homework/upload/file', 'HomeworkController@deleteFile');
     //创建目录
@@ -122,12 +127,18 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/report_ping_columns', 'ReportController@columns');
     //评分列表内容
     Route::get('course/{course}/report_ping_list', 'ReportController@list');
+    //报告图表
+    Route::get('course/{course}/report_chart', 'ChartController@report');
+    //作业图表数据
+    Route::post('course/{course}/report_chart_data', 'ChartController@report_chart_data');
     //报告评分编辑
     Route::post('course/{course}/report_ping_edit', 'ReportController@ping_edit');
     //报告文件页面（文件）
     Route::get('course/{course}/report_file', 'ReportController@file');
     // 添加如下路由
     //报告文件的上传从其他入口操作，以下路由为文件管理
+    //上传文件
+    Route::post('course/{course}/report/upload/file', 'ReportController@uploadFile');
     //删除文件
     Route::delete('course/{course}/report/upload/file', 'ReportController@deleteFile');
     //创建目录

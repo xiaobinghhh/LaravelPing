@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|签到图表</title>
+    <title>课程评分管理系统|作业图表</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -24,18 +24,15 @@
 <div class="container" z-index="-1">
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
-            <a type="button" class="btn btn-default" href="{{url('course/'.$course->no.'/signment_ping')}}"><span
+            <a type="button" class="btn btn-default" href="{{url('course/'.$course->no.'/homework_ping')}}"><span
                         class="glyphicon glyphicon-chevron-left"></span>返回</a>
         </div>
     </div>
 @include('partials.errors')
 <!-- 图表容器 DOM -->
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div id="column_chart" style="min-width: 400px;height:400px;"></div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div id="line_chart" style="min-width: 400px;height:400px;"></div>
         </div>
     </div>
 
@@ -54,7 +51,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             },
-            url: '{{url('course/'.$course->no.'/signment_chart_data')}}',
+            url: '{{url('course/'.$course->no.'/homework_chart_data')}}',
             success: function (data) {
                 var json = JSON.parse(data);
                 var category = JSON.parse(json['xtext']);//X轴文本
@@ -67,7 +64,7 @@
                         reflow: true                    //自适应div的大小
                     },
                     title: {
-                        text: '\"{{$course->name}}\" 各次签到统计'   //图表标题
+                        text: '\"{{$course->name}}\" 各次作业完成统计'   //图表标题
                     },
                     xAxis: {                            //X轴标签
                         categories: category
@@ -85,32 +82,6 @@
                         enabled: false
                     },
                     series: column_series
-                })
-                //新建折线图表
-                var line_series = JSON.parse(json['line_series']);
-                new Highcharts.Chart({
-                    chart: {
-                        renderTo: 'line_chart',           //图表放置的容器，关联DIV#ida
-                        reflow: true                    //自适应div的大小
-                    },
-                    title: {
-                        text: '\"{{$course->name}}\" 出勤率变化'   //图表标题
-                    },
-                    xAxis: {                            //X轴标签
-                        categories: category
-                    },
-                    yAxis: {                            //设置Y轴
-                        title: {
-                            text: '百分比(%)'
-                        },
-                    },
-                    tooltip: {
-                        valueSuffix: '%'
-                    },
-                    credits: {                          //右下角文本不显示
-                        enabled: false
-                    },
-                    series: [line_series]
                 })
             },
         });

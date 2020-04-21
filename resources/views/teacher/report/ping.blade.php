@@ -31,6 +31,14 @@
 <body>
 
 <div class="container" z-index="-1">
+    <!--图表按钮-->
+    @if(count($reports))
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
+                <a class="btn btn-success" href="{{url("course/".$course->no."/report_chart")}}">图表</a>
+            </div>
+        </div>
+@endif
     <!--表格-->
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

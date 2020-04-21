@@ -79,7 +79,7 @@
                     success: function (data) {
                         //表格刷新
                         $("#FinalExamTable").bootstrapTable('refresh');
-                        if (data.flag === 1) {
+                        if (data.flag !== 0) {
                             layui.use('layer', function () {
                                 var layer = layui.layer;
                                 layer.msg(data.msg, {icon: 1});
