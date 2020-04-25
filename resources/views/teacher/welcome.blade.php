@@ -25,73 +25,24 @@
         </div>
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">数据统计</div>
-                <div class="layui-card-body ">
-                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>文章数</h3>
-                                <p>
-                                    <cite>66</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>会员数</h3>
-                                <p>
-                                    <cite>12</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>回复数</h3>
-                                <p>
-                                    <cite>99</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>商品数</h3>
-                                <p>
-                                    <cite>67</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>文章数</h3>
-                                <p>
-                                    <cite>67</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6 ">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>文章数</h3>
-                                <p>
-                                    <cite>6766</cite></p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
                 <div class="layui-card-header">课程列表</div>
                 <div class="layui-card-body ">
                     <table class="layui-table">
-                        <tbody>
+                        <thead>
                         <tr>
-                            <th style="font-weight: bold">课程名称</th>
-                            <td style="font-weight: bold">开始时间</td>
-                            <td style="font-weight: bold">结束时间</td>
-                            <td style="font-weight: bold">地点</td>
-                            <td style="font-weight: bold">学分</td>
-                            <td style="font-weight: bold">课时</td>
-                            <td></td>
+                            <th>课程名称</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>地点</th>
+                            <th>学分</th>
+                            <th>课时</th>
+                            <th></th>
                         </tr>
+                        </thead>
+                        <tbody>
                         @foreach($courses as $course)
                             <tr>
-                                <th>{{$course->name}}</th>
+                                <td>{{$course->name}}</td>
                                 <td>{{$course->begin_at}}</td>
                                 <td>{{$course->end_at}}</td>
                                 <td>{{$course->place}}</td>

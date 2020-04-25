@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Application\Course;
-use App\Application\Homework;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ChartController extends Controller
@@ -60,14 +58,14 @@ class ChartController extends Controller
             for ($j = 0; $j < count($sign_data[$i]); $j++) {
                 //为1出勤
                 if ($sign_data[$i][$j] == 1) {
-                    $data_1[$i]++;
-                    $data_1_cnt[$i]++;
+                    $data_1[$j]++;
+                    $data_1_cnt[$j]++;
                 } //为0缺勤
-                else if ($sign_data[$i][$j] == 0) $data_0[$i]++;
+                else if ($sign_data[$i][$j] == 0) $data_0[$j]++;
             }
         }
         //确定出勤百分比
-        for ($i = 0; $i < count($sign_data); $i++) {
+        for ($i = 0; $i < $sign_cnt; $i++) {
             $data_1_rate[$i] = (double)$data_1_cnt[$i] / (double)count($students) * 100;
         }
         //插入出勤数据
@@ -128,7 +126,7 @@ class ChartController extends Controller
         return view('teacher.report.chart', compact('course'));
     }
 
-    //作业图表数据
+    //报告图表数据
     public function report_chart_data(Course $course)
     {
         $data = [];//结果数据
@@ -164,4 +162,51 @@ class ChartController extends Controller
         return json_encode($data);
     }
 
+    public function final_exam(Course $course)
+    {
+        return view('teacher.final_exam.chart', compact('course'));
+    }
+
+    public function final_exam_chart_data(Course $course)
+    {
+        $data = [];//返回数据
+        $students = $course->students()->get();//课程学生
+        $range_data = [['优秀(90+)', 0], ['良好(80-90)', 0], ['中(70-80)', 0], ['及格(60-70)', 0], ['不及格(60-)', 0]];
+        $scores = array();//记录学生成绩数据
+        //遍历每个学生的期末考试成绩记录
+        foreach ($students as $student) {
+            $final_exam = $student->final_exam()->first();
+            //学生有考试记录
+            if ($final_exam) {
+                array_push($scores, ['name' => $student->name, 'y' => $final_exam->final_exam_score]);//记录名字和成绩
+                //判断考试成绩等级,记录各个范围的人数
+                switch (floor($final_exam->final_exam_score / 10)) {
+                    case 9:
+                        $range_data[0][1]++;
+                        break;
+                    case 8:
+                        $range_data[1][1]++;
+                        break;
+                    case 7:
+                        $range_data[2][1]++;
+                        break;
+                    case 6:
+                        $range_data[3][1]++;
+                        break;
+                    default:
+                        $range_data[4][1]++;
+                        break;
+                }
+            } //没有考试记录
+            else {
+                $range_data[4][1]++;//不及格的人数加一
+                array_push($scores, ['name' => $student->name, 'y' => 0]);//记录成绩0分
+            }
+        }
+        $timeKey = array_column($scores, 'y'); //取出数组中y的一列，返回一维数组
+        array_multisort($timeKey, SORT_DESC, $scores);//排序，根据 y 排序
+        $data['range_data'] = $range_data;//记录成绩范围扇形图数据
+        $data['scores'] = $scores;//记录成绩
+        return json_encode($data);
+    }
 }

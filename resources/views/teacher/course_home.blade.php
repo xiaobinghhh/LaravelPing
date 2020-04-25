@@ -71,7 +71,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="课程作业">&#xe6b8;</i>
+                    <i class="iconfont left-nav-li" lay-tips="课程作业">&#xe6a2;</i>
                     <cite>课程作业</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
@@ -94,7 +94,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="课程报告">&#xe6b8;</i>
+                    <i class="iconfont left-nav-li" lay-tips="课程报告">&#xe705;</i>
                     <cite>课程报告</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
@@ -117,7 +117,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="期末考试">&#xe6b8;</i>
+                    <i class="iconfont left-nav-li" lay-tips="期末考试">&#xe74e;</i>
                     <cite>期末考试</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
@@ -143,7 +143,7 @@
     <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
         <ul class="layui-tab-title">
             <li class="home">
-                <i class="layui-icon">&#xe68e;</i>课程首页
+                <i class="layui-icon">&#xe68e;</i>{{$course->name}}
             </li>
         </ul>
         <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">

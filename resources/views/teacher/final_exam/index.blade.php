@@ -31,6 +31,12 @@
 </head>
 <body>
 <div class="container" z-index="-1">
+    <!--图表按钮-->
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 10px">
+            <a class="btn btn-success" href="{{url("course/".$course->no."/final_exam_chart")}}">图表</a>
+        </div>
+    </div>
     @include('partials.errors')
     <div class="row" style="padding: 10px">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

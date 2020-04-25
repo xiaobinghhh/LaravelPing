@@ -28,8 +28,12 @@ class IndexController extends Controller
         $tech_no = session('userInfo')['no'];
         //获取教师的课程
         $teacher = Teacher::where('no', '=', $tech_no)->first();
-        $courses = $teacher->courses()->get();
-        return view('teacher.welcome', compact('courses'));
+        if ($teacher){
+            $courses = $teacher->courses()->get();
+            return view('teacher.welcome', compact('courses'));
+        }else{
+            return redirect('teacher/logout');
+        }
     }
 
     //修改密码

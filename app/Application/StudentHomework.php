@@ -10,7 +10,6 @@ class StudentHomework extends Model
     protected $table = 'student_homework';
     public $timestamps = false;
 
-
     //多个提交对应一次作业
     public function homework()
     {

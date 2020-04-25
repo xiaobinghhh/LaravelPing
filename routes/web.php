@@ -153,6 +153,10 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/final_exam_list', 'FinalExamController@list');
     //期末考试成绩编辑
     Route::post('course/{course}/final_exam_edit', 'FinalExamController@edit');
+    //期末考试图表
+    Route::get('course/{course}/final_exam_chart', 'ChartController@final_exam');
+    //期末考试图表数据
+    Route::post('course/{course}/final_exam_chart_data', 'ChartController@final_exam_chart_data');
     //期末考试试卷页面
     Route::get('course/{course}/final_exam_file', 'FinalExamController@file');
     //上传文件
@@ -163,4 +167,29 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::post('course/{course}/final_exam/upload/folder', 'FinalExamController@createFolder');
     //删除目录
     Route::delete('course/{course}/final_exam/upload/folder', 'FinalExamController@deleteFolder');
+});
+
+//学生界面中间件路由
+Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'student', 'namespace' => 'Student'], function () {
+    //学生-首页
+    Route::get('index', 'IndexController@index');
+    //学生-欢迎页
+    Route::get('welcome', 'IndexController@welcome');
+    //退出登录路由
+    Route::get('logout', 'IndexController@logout');
+    //修改密码路由
+    Route::any('changePass', 'IndexController@changePass');
+
+    //课程-首页
+    Route::get('course/{course}', 'IndexController@course');
+    //课程-欢迎页
+    Route::get('course/{course}/welcome', 'CourseController@welcome');
+
+    //我的作业-页面
+    Route::get('course/{course}/homework', 'HomeworkController@index');
+    //我的作业-修改
+    Route::any('course/{course}/homework/{homework}/edit', 'HomeworkController@edit');
+    //我的作业-提交
+    Route::any('course/{course}/homework/{homework}/commit', 'HomeworkController@commit');
+
 });
