@@ -21,9 +21,17 @@
     <link href="{{asset('statics/bootstrap-table/dist/bootstrap-table.css')}}" rel="stylesheet">
     <script src="{{asset('statics/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.js')}}"
             type="text/javascript"></script>
+    <script src="{{asset('statics/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js')}}"></script>{{--导出扩展--}}
     {{--引入x-editable-develop--}}
     <link href="{{asset('statics/bootstrap3-editable/css/bootstrap-editable.css')}}">
     <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.js')}}" type="text/javascript"></script>
+    {{--引入tableExport.jquery.plugin--}}
+    {{--在客户端保存生成的导出文件--}}
+    <script src="{{asset('statics/tableExport/libs/FileSaver/FileSaver.min.js')}}"></script>
+    {{--以XLSX（Excel 2007+ XML格式）格式导出表（SheetJS）--}}
+    <script src="{{asset('statics/tableExport/libs/js-xlsx/xlsx.core.min.js')}}"></script>
+    {{--无论期望的格式如何，最后都包含 tableexport.jquery.plugin（不是tableexport）--}}
+    <script src="{{asset('statics/tableExport/tableExport.js')}}"></script>
     {{--引入layui的js--}}
     <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
 
@@ -93,6 +101,13 @@
                 });
                 $('#reportPingTable').bootstrapTable('destroy').bootstrapTable({
                     detailView: true,
+                    //导出
+                    showExport: true,
+                    exportTypes: ['csv', 'sql', 'doc', 'excel', 'xlsx'],  //导出文件类型
+                    exportOptions: {//导出设置
+                        ignoreColumn: [0],
+                        fileName: '{{$course->name}} 作业成绩表',//下载文件名称
+                    },
                     undefinedText: '-',
                     striped: true,
                     sortable: false,

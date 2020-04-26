@@ -20,5 +20,6 @@ class HomeworkUploadsManager extends FileUploadsManager
     {
         $path = rtrim(config('homework.homeworks.webpath'), '/') . '/' . ltrim($path, '/');
         return url($path);
+
     }
 }

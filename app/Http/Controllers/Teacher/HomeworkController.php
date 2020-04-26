@@ -349,7 +349,7 @@ class HomeworkController extends Controller
             if ($commit != null) {
                 //检查输入成绩格式
                 //格式正确
-                if (is_numeric($v)&&is_int((int)$v) && $v >= 0 && $v <= 100) {
+                if (is_numeric($v) && is_int((int)$v) && $v >= 0 && $v <= 100) {
                     //成绩做了修改,进行修改
                     if ($commit->homework_score != $v) {
                         //更新作业提交记录的作业成绩
@@ -485,5 +485,19 @@ class HomeworkController extends Controller
         return redirect()
             ->back()
             ->withErrors([$error]);
+    }
+
+    //学生提交的作业文件下载
+    public function download(Request $request)
+    {
+        $src = $request['src'];
+        $str = explode('/', $src);
+        $src = public_path('homeworks') . '\\';
+        for ($i = 4; $i < sizeof($str); $i++) {
+            $src = $src . str_finish($str[$i], '\\');
+        }
+        $src = rtrim($src, '\\');
+        $file_name = basename($src);
+        return response()->download($src, $file_name);
     }
 }

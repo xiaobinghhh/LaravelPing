@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>课程评分管理系统|学生-作业列表</title>
+    <title>课程评分管理系统|学生-报告列表</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -37,9 +37,9 @@
                    data-page-size="10" data-search="true">
                 <thead>
                 <tr>
-                    <th>作业</th>
-                    <th>作业描述</th>
-                    <th>作业文件</th>
+                    <th>报告</th>
+                    <th>报告描述</th>
+                    <th>报告文件</th>
                     <th>剩余天数</th>
                     <th>完成状态</th>
                     <th>提交文件</th>
@@ -50,12 +50,10 @@
                 <tbody>
                 @foreach($data as $k=>$v)
                     <tr>
-                        <td>{{$v[0]['homework_name']}}</td>
-                        <td>{{$v[0]['homework_desc']}}</td>
-                        @if($v[0]['homework_src'])
-                            <td>
-                                <a href="{{url('student/homework/download?src='.$v[0]['homework_src'])}}">{{$v[0]['homework_name']}}</a>
-                            </td>
+                        <td>{{$v[0]['report_name']}}</td>
+                        <td>{{$v[0]['report_desc']}}</td>
+                        @if($v[0]['report_src'])
+                            <td><a href="{{$v[0]['report_src']}}">{{$v[0]['report_name']}}</a></td>
                         @else
                             <td>-</td>
                         @endif
@@ -68,9 +66,8 @@
                             @endif
                         </td>
                         @if($v[0]['src'])
-                            <td>
-                                <a href="{{url('student/homework/download?src='.$v[0]['src'])}}">{{session('studentInfo')['name']}}
-                                    _{{$v[0]['homework_name']}}</a>
+                            <td><a href="{{$v[0]['src']}}">{{session('studentInfo')['name']}}
+                                    _{{$v[0]['report_name']}}</a>
                             </td>
                         @else
                             <td>-</td>
@@ -83,13 +80,13 @@
                         @if($v[0]['status']=='已完成')
                             <td>
                                 <a class="btn btn-xs btn-success"
-                                   href="{{url('student/course/'.$course->no.'/homework/'.$v[0]['homework_id'].'/edit')}}">
+                                   href="{{url('student/course/'.$course->no.'/report/'.$v[0]['report_id'].'/edit')}}">
                                     修改</a>
                             </td>
                         @else
                             <td>
                                 <a class="btn btn-xs btn-primary"
-                                   href="{{url('student/course/'.$course->no.'/homework/'.$v[0]['homework_id'].'/commit')}}">
+                                   href="{{url('student/course/'.$course->no.'/report/'.$v[0]['report_id'].'/commit')}}">
                                     提交</a>
                             </td>
                         @endif

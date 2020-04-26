@@ -20,10 +20,20 @@
             type="text/javascript"></script>
     <link href="{{asset('statics/bootstrap-table/dist/bootstrap-table.css')}}" rel="stylesheet">
     <script src="{{asset('statics/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.js')}}"
-            type="text/javascript"></script>
+            type="text/javascript"></script>{{--编辑扩展--}}
+    <script src="{{asset('statics/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js')}}"></script>{{--导出扩展--}}
     {{--引入x-editable-develop--}}
     <link href="{{asset('statics/bootstrap3-editable/css/bootstrap-editable.css')}}">
     <script src="{{asset('statics/bootstrap3-editable/js/bootstrap-editable.js')}}" type="text/javascript"></script>
+
+    {{--引入tableExport.jquery.plugin--}}
+    {{--在客户端保存生成的导出文件--}}
+    <script src="{{asset('statics/tableExport/libs/FileSaver/FileSaver.min.js')}}"></script>
+    {{--以XLSX（Excel 2007+ XML格式）格式导出表（SheetJS）--}}
+    <script src="{{asset('statics/tableExport/libs/js-xlsx/xlsx.core.min.js')}}"></script>
+    {{--无论期望的格式如何，最后都包含 tableexport.jquery.plugin（不是tableexport）--}}
+    <script src="{{asset('statics/tableExport/tableExport.js')}}"></script>
+
     {{--引入layui的js--}}
     <script src="{{asset('template/lib/layui/layui.js')}}" charset="utf-8"></script>
 
@@ -67,8 +77,8 @@
         $.ajax({
             url: "{{url("course/".$course->no."/homework_ping_columns")}}",
             async: true,
+            //异步获取要动态生成的列
             success: function (returnValue) {
-                //异步获取要动态生成的列
                 var arr = JSON.parse(returnValue);
                 var regNumber = /\d+/; //验证0-9的任意数字最少出现1次。
                 $.each(arr, function (i, item) {
@@ -92,7 +102,15 @@
                     }
                 });
                 $('#HomeworkPingTable').bootstrapTable('destroy').bootstrapTable({
-                    detailView: true,
+                    detailView: true,//详情
+                    //导出
+                    showExport: true,
+                    exportTypes: ['csv', 'sql', 'doc', 'excel', 'xlsx'],  //导出文件类型
+                    exportOptions: {//导出设置
+                        ignoreColumn: [0],
+                        fileName: '{{$course->name}} 作业成绩表',//下载文件名称
+                    },
+                    //基本设置
                     undefinedText: '-',
                     striped: true,
                     sortable: false,
@@ -102,6 +120,7 @@
                     search: true,
                     pageNumber: 1,
                     pageSize: 10,
+                    pageList: [5, 10, 20, 40, 'all'],
                     columns: columns,
                     url: "{{url("course/".$course->no."/homework_ping_list")}}",
                     onEditableSave: function (field, row, oldvalue, $el) {
@@ -149,16 +168,18 @@
             //展开详情中的数据
             if (key.search('homework_commit_details_') !== -1) {
                 if (value[2]) {
+                    //提交且上传文件
                     if (value[1] !== "无文件") {
                         html.push('<tr style="padding: 10px">' +
                             '<td style="padding: 10px"><b>' + value[0] + '</b></td>' +
                             '<td style="padding: 10px">提交文件：</td>' +
-                            '<td style="padding: 10px"><a href="' + value[1] + '">文件</a></td>' +
+                            '<td style="padding: 10px"><a href="' + "teacher/homework/download?src=" + value[1] + '">文件</a></td>' +
                             '<td style="padding: 10px">提交说明：</td>' +
                             '<td style="padding: 10px">' + value[2] + '</td>' +
                             '</tr>'
                         );
-                    } else {
+                    }//有提交，无文件
+                    else {
                         html.push(
                             '<tr style="padding: 10px">' +
                             '<td style="padding: 10px"><b>' + value[0] + '</b></td>' +
@@ -168,7 +189,8 @@
                             '<td style="padding: 10px">' + value[2] + '</td>' +
                             '</tr>');
                     }
-                } else {
+                }//无提交
+                else {
                     html.push(
                         '<tr style="padding: 10px">' +
                         '<td style="padding: 10px"><b>' + value[0] + '<b></td>' +

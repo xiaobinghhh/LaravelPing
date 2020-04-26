@@ -22,6 +22,7 @@ Route::get('/code/captcha/{tmp}', 'Application\LoginController@captcha');
 //系统登录验证路由
 Route::any('/login/doLogin', 'Application\LoginController@doLogin');
 
+
 //学生界面中间件路由
 Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'student', 'namespace' => 'Student'], function () {
     //学生--首页
@@ -103,6 +104,8 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/homework_ping_columns', 'HomeworkController@columns');
     //作业评分列表内容
     Route::get('course/{course}/homework_ping_list', 'HomeworkController@list');
+    //学生作业下载
+    Route::get('course/{course}/teacher/homework/download', 'HomeworkController@download');
     //作业评分编辑
     Route::post('course/{course}/homework_ping_edit', 'HomeworkController@ping_edit');
     //作业文件页面（文件）
@@ -127,6 +130,8 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::get('course/{course}/report_ping_columns', 'ReportController@columns');
     //评分列表内容
     Route::get('course/{course}/report_ping_list', 'ReportController@list');
+    //学生报告下载
+    Route::get('course/{course}/teacher/report/download', 'ReportController@download');
     //报告图表
     Route::get('course/{course}/report_chart', 'ChartController@report');
     //作业图表数据
@@ -191,5 +196,16 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'student', 'nam
     Route::any('course/{course}/homework/{homework}/edit', 'HomeworkController@edit');
     //我的作业-提交
     Route::any('course/{course}/homework/{homework}/commit', 'HomeworkController@commit');
+    //作业下载路由
+    Route::get('homework/download', 'HomeworkController@download');
+
+    //我的报告-页面
+    Route::get('course/{course}/report', 'ReportController@index');
+    //我的报告-修改
+    Route::any('course/{course}/report/{report}/edit', 'ReportController@edit');
+    //我的报告-提交
+    Route::any('course/{course}/report/{report}/commit', 'ReportController@commit');
+    //报告下载路由
+    Route::get('report/download', 'ReportController@download');
 
 });

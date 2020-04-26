@@ -487,4 +487,18 @@ class ReportController extends Controller
             ->withErrors([$error]);
     }
 
+    //学生提交的报告下载
+    public function download(Request $request)
+    {
+        $src = $request['src'];
+        $str = explode('/', $src);
+        $src = public_path('homeworks') . '\\';
+        for ($i = 4; $i < sizeof($str); $i++) {
+            $src = $src . str_finish($str[$i], '\\');
+        }
+        $src = rtrim($src, '\\');
+        $file_name = basename($src);
+        return response()->download($src, $file_name);
+    }
+
 }

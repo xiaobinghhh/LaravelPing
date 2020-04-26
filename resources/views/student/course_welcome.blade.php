@@ -126,7 +126,7 @@
                                             @endforeach
                                         </td>
                                     @else
-                                        <td>该课程无作业</td>
+                                        <td>该课程暂无作业</td>
                                     @endif
                                 </tr>
                             @elseif($one_data=='report')
@@ -146,7 +146,7 @@
                                             @endforeach
                                         </td>
                                     @else
-                                        <td>该课程无报告</td>
+                                        <td>该课程暂无报告</td>
                                     @endif
                                 </tr>
                             @elseif($one_data=='final_exam')
