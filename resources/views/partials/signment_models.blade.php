@@ -173,3 +173,39 @@
         </div>
     </div>
 </div>
+
+{{-- 识别图片 --}}
+<div class="modal fade" id="modal-image-recognize">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">请确认</h4>
+            </div>
+            <div class="modal-body">
+                <p class="lead">
+                    <i class="fa fa-question-circle fa-lg"></i>
+                    确认识别
+                    <kbd><span id="recognize-image-name1">image</span></kbd>
+                    图片吗?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <form method="" action="{{url('course/'.$course->no.'/signment/recognize/image')}}"
+                      id="recognize-form">
+                    {{csrf_field()}}
+                    <input type="hidden" name="folder" id="folder" value="{{ $folder }}">
+                    <input type="hidden" name="img_name" id="recognize-image-name2">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="recognize">
+                        识别
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,11 +1,16 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "96qbhy/baidu-aip": "^0.1.4",
+        "baidu/aip-sdk": "^2.2",
         "caouecs/laravel-lang": "~3.0",
         "dflydev/apache-mime-types": "^1.0",
         "encore/laravel-admin": "^1.7",

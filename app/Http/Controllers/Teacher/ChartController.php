@@ -181,6 +181,9 @@ class ChartController extends Controller
                 array_push($scores, ['name' => $student->name, 'y' => $final_exam->final_exam_score]);//记录名字和成绩
                 //判断考试成绩等级,记录各个范围的人数
                 switch (floor($final_exam->final_exam_score / 10)) {
+                    case 10:
+                        $range_data[0][1]++;
+                        break;
                     case 9:
                         $range_data[0][1]++;
                         break;

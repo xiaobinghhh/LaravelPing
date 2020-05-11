@@ -99,7 +99,6 @@
                     layui.use('layer', function () {
                         var layer = layui.layer;
                         layer.msg(data.msg, {icon: 1});
-
                     });
                 } else {
                     layui.use('layer', function () {

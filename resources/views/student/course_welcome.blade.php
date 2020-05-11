@@ -57,23 +57,30 @@
                     <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                         <li class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>成绩排名</h3>
+                                <p>
+                                    <cite>{{$data['rank']}}</cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>出勤率</h3>
                                 <p>
-                                    <cite>{{sprintf("%01.2f", $data['rate'][0]['arrive_rate']*100).'%'}}</cite></p>
+                                    <cite>{{sprintf("%01.2f", $data['rate']['arrive_rate']*100).'%'}}</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>作业完成率</h3>
                                 <p>
-                                    <cite>{{sprintf("%01.2f", $data['rate'][1]['finish_rate']*100).'%'}}</cite></p>
+                                    <cite>{{sprintf("%01.2f", $data['rate']['finish_rate']*100).'%'}}</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>报告提交率</h3>
                                 <p>
-                                    <cite>{{sprintf("%01.2f", $data['rate'][2]['commit_rate']*100).'%'}}</cite></p>
+                                    <cite>{{sprintf("%01.2f", $data['rate']['commit_rate']*100).'%'}}</cite></p>
                             </a>
                         </li>
                     </ul>
@@ -88,74 +95,30 @@
                         <thead class="layui-table-header">
                         <tr>
                             <th>评分项</th>
-                            <th>情况</th>
+                            <th>成绩</th>
                         </tr>
                         </thead>
                         <tbody class="layui-table-body">
-                        @foreach($data as $one_data=>$data_info)
-                            @if($one_data=='signment')
-                                <tr>
-                                    <td>签到</td>
-                                    <td>
-                                        签到数据：
-                                        @foreach($data_info['sign_data'] as $sign_data)
-                                            @if($sign_data==='1')
-                                                到-
-                                            @else
-                                                未到-
-                                            @endif
-                                        @endforeach
-                                        <br>
-                                        签到成绩：{{$data_info['sign_score']}}
-                                    </td>
-                                </tr>
-                            @elseif($one_data=='homework')
-                                <tr>
-                                    <td>作业</td>
-                                    @if($data_info)
-                                        <td>
-                                            @foreach($data_info as $one_homework)
-                                                @foreach($one_homework as $k=>$v)
-                                                    {{$k}}:
-                                                    @if($v=='未完成')
-                                                        未完成<br>
-                                                    @else
-                                                        已完成 , 成绩：{{$v['homework_score']}}<br>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                        </td>
-                                    @else
-                                        <td>该课程暂无作业</td>
-                                    @endif
-                                </tr>
-                            @elseif($one_data=='report')
-                                <tr>
-                                    <td>报告</td>
-                                    @if($data_info)
-                                        <td>
-                                            @foreach($data_info as $one_report)
-                                                @foreach($one_report as $k=>$v)
-                                                    {{$k}}:
-                                                    @if($v=='未完成')
-                                                        未完成<br>
-                                                    @else
-                                                        已完成 , 成绩：{{$v['report_score']}}<br>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                        </td>
-                                    @else
-                                        <td>该课程暂无报告</td>
-                                    @endif
-                                </tr>
-                            @elseif($one_data=='final_exam')
-                                <tr>
-                                    <td>期末考试</td>
-                                    <td>考试成绩：{{$data['final_exam']['final_exam_score']}}</td>
-                                </tr>
-                            @endif
-                        @endforeach
+                        <tr>
+                            <td>签到</td>
+                            <td>{{$data['score']['signment_score']}}</td>
+                        </tr>
+                        <tr>
+                            <td>作业</td>
+                            <td>{{$data['score']['homework_score']}}</td>
+                        </tr>
+                        <tr>
+                            <td>报告</td>
+                            <td>{{$data['score']['homework_score']}}</td>
+                        </tr>
+                        <tr>
+                            <td>期末考试</td>
+                            <td>{{$data['score']['final_exam_score']}}</td>
+                        </tr>
+                        <tr>
+                            <td>总成绩</td>
+                            <td>{{$data['score']['total_score']}}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

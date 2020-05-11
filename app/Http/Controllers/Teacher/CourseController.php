@@ -147,6 +147,9 @@ class CourseController extends Controller
                 'final_exam_score' => $final_exam_score,
                 'total_score' => $total_score,
             ];
+            //同时记录学生总成绩
+            DB::table('student_course')->where('student_no', $student->no)->where('course_no', $course->no)
+                ->update(['course_score' => $total_score]);
         }
         return view('teacher.course_welcome', compact('rate', 'data', 'course'));
     }

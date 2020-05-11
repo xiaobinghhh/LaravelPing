@@ -329,6 +329,7 @@ class ReportController extends Controller
     //报告评分分数修改
     public function ping_edit(Request $request, Course $course)
     {
+        $report_cnt = count($course->reports()->get());
         //初始化返回结果
         $result = [
             'flag' => 1,
@@ -352,11 +353,37 @@ class ReportController extends Controller
                 if (is_numeric($v) && is_int((int)$v) && $v >= 0 && $v <= 100) {
                     //成绩做了修改,进行修改
                     if ($commit->report_score != $v) {
+                        $basiss = $course->basis()->get();//获得该课程设置的评分项,准备计算加权总成绩
+                        //计算之前报告成绩在总成绩中的加权值
+                        $pre_report = 0;
+                        foreach ($basiss as $basis) {
+                            switch ($basis->name) {
+                                case 'report':
+                                    $pre_report = $request->input('score') * $basis->weight / 100;
+                                    break;
+                            }
+                        }
+                        //计算修改后报告成绩在总成绩中的加权值
+                        $rear_report = 0;
+                        foreach ($basiss as $basis) {
+                            switch ($basis->name) {
+                                case 'report':
+                                    $rear_report = ($request->input('score') * $report_cnt - $commit->report_score + $v) / $report_cnt * $basis->weight / 100;
+                                    break;
+                            }
+                        }
                         //更新报告提交记录的报告成绩
                         $flag = DB::table('student_report')->where([
                             ['report_course_id', '=', $k],
                             ['student_no', '=', $student_no]
                         ])->update(['report_score' => $v]) ? 1 : 0;
+                        //同时更新课程总成绩
+                        //获取学生课程选课表
+                        $student_course = DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)->first();
+                        //更新选课表的课程总成绩
+                        $course_score = $student_course->course_score - $pre_report + $rear_report;
+                        DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)
+                            ->update(['course_score'=>$course_score]);
                         $result['flag'] = $flag;
                         $result['msg'] = '修改成功';
                         return json_encode($result);
@@ -492,7 +519,7 @@ class ReportController extends Controller
     {
         $src = $request['src'];
         $str = explode('/', $src);
-        $src = public_path('homeworks') . '\\';
+        $src = public_path('reports') . '\\';
         for ($i = 4; $i < sizeof($str); $i++) {
             $src = $src . str_finish($str[$i], '\\');
         }

@@ -26,7 +26,7 @@
             <a href="javascript:;">{{session('studentInfo')['name']}}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a onclick="xadmin.open('修改密码','{{url('student/changePass')}}',600,600,false)">修改密码</a></dd>
-                <dd><a href="{{url('student/logout')}}">退出</a></dd>
+                <dd><a onclick="logout()">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -52,4 +52,13 @@
 
 <!-- 底部结束 -->
 </body>
+<script>
+    function logout() {
+        var tabtitle = $(".layui-tab-title li");
+        $.each(tabtitle, function () {
+            parent.element.tabDelete('xbs_tab', $(this).attr("lay-id"));
+        })
+        window.location.href = "{{url('student/logout')}}";
+    }
+</script>
 </html>

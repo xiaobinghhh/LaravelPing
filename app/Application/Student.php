@@ -9,6 +9,12 @@ class Student extends Model
     //定义关联的数据表
     protected $table = 'students';
 
+    //一个学生对应系统中的一个用户
+    public function user()
+    {
+        return $this->belongsTo('App\Application\User');
+    }
+
     //学生和课程多对多，但是查询出来的数据只有课程里面相关的数据，想要获取课程的成绩数据还要再次查询
     public function courses()
     {

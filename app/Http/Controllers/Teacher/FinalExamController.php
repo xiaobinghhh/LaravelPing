@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use function Couchbase\defaultDecoder;
 
 class FinalExamController extends Controller
 {
@@ -72,8 +73,33 @@ class FinalExamController extends Controller
             if ($final_exam) {
                 //修改了期末考试成绩
                 if ($final_exam_score != $final_exam->final_exam_score) {
+                    $basiss = $course->basis()->get();//获得该课程设置的评分项,准备计算加权总成绩
+                    //计算之前期末成绩在总成绩中的加权值
+                    $pre_final = 0;
+                    foreach ($basiss as $basis) {
+                        switch ($basis->name) {
+                            case 'final_exam':
+                                $pre_final = $final_exam->final_exam_score * $basis->weight / 100;
+                                break;
+                        }
+                    }
+                    //计算修改后期末成绩在总成绩中的加权值
+                    $rear_final = 0;
+                    foreach ($basiss as $basis) {
+                        switch ($basis->name) {
+                            case 'final_exam':
+                                $rear_final = $final_exam_score * $basis->weight / 100;
+                                break;
+                        }
+                    }
                     //更新期末考试成绩
                     $final_exam->final_exam_score = $final_exam_score;
+                    //获取学生课程选课表
+                    $student_course = DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)->first();
+                    //更新选课表的课程总成绩
+                    $course_score = $student_course->course_score - $pre_final + $rear_final;
+                    DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)
+                        ->update(['course_score' => $course_score]);
                     //更新
                     $flag = $final_exam->save() ? 1 : 0;
                     //更新结果
@@ -96,6 +122,25 @@ class FinalExamController extends Controller
                     'course_no' => $course->no,
                     'final_exam_score' => $final_exam_score
                 ]);
+                //更新选课的总成绩
+                $basiss = $course->basis()->get();//获得该课程设置的评分项,准备计算加权总成绩
+                //之前期末成绩为0，在总成绩中的加权值为0
+                $pre_final = 0;
+                //计算修改后期末成绩在总成绩中的加权值
+                $rear_final = 0;
+                foreach ($basiss as $basis) {
+                    switch ($basis->name) {
+                        case 'final_exam':
+                            $rear_final = $final_exam_score * $basis->weight / 100;
+                            break;
+                    }
+                }
+                //获取学生课程选课表
+                $student_course = DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)->first();
+                //更新选课表的课程总成绩
+                $course_score = $student_course->course_score - $pre_final + $rear_final;
+                DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)
+                    ->update(['course_score' => $course_score]);
                 //更新结果
                 $result['flag'] = $flag;
                 if ($flag == 0) {

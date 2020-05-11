@@ -17,6 +17,7 @@ class CreateStudentCourseTable extends Migration
             $table->increments('id');
             $table->integer('student_no');
             $table->integer('course_no');
+            $table->float('course_score')->default('0');//课程总成绩
         });
     }
 

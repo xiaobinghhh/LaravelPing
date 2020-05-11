@@ -29,7 +29,7 @@
             <a href="javascript:;">{{session('studentInfo')['name']}}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a onclick="xadmin.open('修改密码','{{url('student/changePass')}}',600,600,false)">修改密码</a></dd>
-                <dd><a href="{{url('student/logout')}}">退出</a></dd>
+                <dd><a onclick="logout()">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -43,6 +43,11 @@
     <div id="side-nav">
         <ul id="nav">
             <li>
+                <a onclick="xadmin.add_tab('我的签到','{{url("student/course/".$course->no."/signment")}}',true)">
+                    <i class="iconfont left-nav-li" lay-tips="我的签到">&#xe6b8;</i>
+                    <cite>我的签到</cite></a>
+            </li>
+            <li>
                 <a onclick="xadmin.add_tab('我的作业','{{url("student/course/".$course->no."/homework")}}',true)">
                     <i class="iconfont left-nav-li" lay-tips="我的作业">&#xe6a2;</i>
                     <cite>我的作业</cite></a>
@@ -51,6 +56,11 @@
                 <a onclick="xadmin.add_tab('我的报告','{{url("student/course/".$course->no."/report")}}',true)">
                     <i class="iconfont left-nav-li" lay-tips="我的报告">&#xe705;</i>
                     <cite>我的报告</cite></a>
+            </li>
+            <li>
+                <a onclick="xadmin.add_tab('我的期末考试','{{url("student/course/".$course->no."/final_exam")}}',true)">
+                    <i class="iconfont left-nav-li" lay-tips="我的期末考试">&#xe74e;</i>
+                    <cite>我的期末考试</cite></a>
             </li>
         </ul>
     </div>
@@ -83,6 +93,8 @@
 </div>
 <!-- 右侧主体结束 -->
 <!-- 中部结束 -->
+
+</body>
 <script>
     function back_home() {
         var tabtitle = $(".layui-tab-title li");
@@ -92,6 +104,12 @@
         window.location.href = "{{url('student/index')}}";
     };
 
+    function logout() {
+        var tabtitle = $(".layui-tab-title li");
+        $.each(tabtitle, function () {
+            parent.element.tabDelete('xbs_tab', $(this).attr("lay-id"));
+        })
+        window.location.href = "{{url('teacher/logout')}}";
+    }
 </script>
-</body>
 </html>

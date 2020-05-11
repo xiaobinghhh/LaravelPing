@@ -329,6 +329,7 @@ class HomeworkController extends Controller
     //作业评分分数修改
     public function ping_edit(Request $request, Course $course)
     {
+        $homework_cnt = count($course->homeworks()->get());
         //初始化返回结果
         $result = [
             'flag' => 1,
@@ -337,7 +338,7 @@ class HomeworkController extends Controller
         //获取编辑行的学生学号
         $student_no = $request->input('student_no');
         //获取编辑行的各作业成绩
-        $homework_scores = $request->except('student_no', 'student_name', 'score');
+        $homework_scores = $request->except('student_no', 'student_name');
         //遍历各作业的成绩，找到修改的一项后修改
         foreach ($homework_scores as $k => $v) {
             //查找该学生$k作业的提交记录
@@ -352,11 +353,37 @@ class HomeworkController extends Controller
                 if (is_numeric($v) && is_int((int)$v) && $v >= 0 && $v <= 100) {
                     //成绩做了修改,进行修改
                     if ($commit->homework_score != $v) {
+                        $basiss = $course->basis()->get();//获得该课程设置的评分项,准备计算加权总成绩
+                        //计算之前作业成绩在总成绩中的加权值
+                        $pre_homework = 0;
+                        foreach ($basiss as $basis) {
+                            switch ($basis->name) {
+                                case 'homework':
+                                    $pre_homework = $request->input('score') * $basis->weight / 100;
+                                    break;
+                            }
+                        }
+                        //计算修改后作业成绩在总成绩中的加权值
+                        $rear_homework = 0;
+                        foreach ($basiss as $basis) {
+                            switch ($basis->name) {
+                                case 'homework':
+                                    $rear_homework = ($request->input('score') * $homework_cnt - $commit->homework_score + $v) / $homework_cnt * $basis->weight / 100;
+                            }
+                        }
                         //更新作业提交记录的作业成绩
                         $flag = DB::table('student_homework')->where([
                             ['homework_course_id', '=', $k],
                             ['student_no', '=', $student_no]
                         ])->update(['homework_score' => $v]) ? 1 : 0;
+                        //同时更新课程总成绩
+                        //获取学生课程选课表
+                        $student_course = DB::table('student_course')->where('student_no', $student_no)
+                            ->where('course_no', $course->no)->first();
+                        //更新选课表的课程总成绩
+                        $course_score = $student_course->course_score - $pre_homework + $rear_homework;
+                        DB::table('student_course')->where('student_no', $student_no)->where('course_no', $course->no)
+                            ->update(['course_score' => $course_score]);
                         $result['flag'] = $flag;
                         $result['msg'] = '修改成功';
                         return json_encode($result);

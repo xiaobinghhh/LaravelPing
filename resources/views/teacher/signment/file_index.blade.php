@@ -118,6 +118,11 @@
                                     <i class="fa fa-eye fa-lg"></i>
                                     预览
                                 </button>
+                                <button type="button" class="btn btn-xs btn-primary"
+                                        onclick="recognize_image('{{ $file['name'] }}')">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                    识别
+                                </button>
                             @endif
                         </td>
                     </tr>
@@ -152,6 +157,13 @@
         $("#modal-image-view").modal("show");
     }
 
+    // 识别图片
+    function recognize_image(name) {
+        $("#recognize-image-name1").html(name);
+        $("#recognize-image-name2").val(name);
+        $("#modal-image-recognize").modal("show");
+    }
+
     // 初始化数据
     $(function () {
         $("#uploads-table").bootstrapTable({
@@ -160,6 +172,49 @@
             sortable: true,                     //是否启用排序
             sortOrder: "asc",                   //排序方式
             pageSize: 5,                     //每页的记录行数（*）
+        });
+    });
+
+    //加载中显示
+    function showloading(t) {
+        if (t) {//如果是true则显示loading
+            console.log(t);
+            loading = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        } else {//如果是false则关闭loading
+            console.log("关闭loading层:" + t);
+            layer.closeAll('loading');
+        }
+    }
+
+    $('#recognize').click(function () {
+        $.ajax({
+            url: $('#recognize-form').attr('action'), //发送后台的url
+            type: 'post',
+            async: true,
+            data: $('#recognize-form').serialize(),
+            dataType: 'json', //后台返回的数据类型
+            timeout: 60000, //超时时间
+            beforeSend: function (XMLHttpRequest) {
+                showloading(true); //在后台返回success之前显示loading图标
+            },
+            success: function (data) { //data为后台返回的数据
+                showloading(false);//关闭loading
+                $("#loading").empty(); //ajax返回成功，
+                if (data.status === 0) {
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.msg(data.msg, {icon: 1});
+                    });
+                } else {
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.msg(data.msg, {icon: 2});
+                    });
+                }
+                $('#modal-image-recognize').modal('hide');//隐藏模态框
+            }
         });
     });
 

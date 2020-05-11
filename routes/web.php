@@ -90,6 +90,8 @@ Route::group(['middleware' => ['web', 'user.login'], 'namespace' => 'Teacher'], 
     Route::post('course/{course}/signment/upload/folder', 'SignmentController@createFolder');
     //删除目录
     Route::delete('course/{course}/signment/upload/folder', 'SignmentController@deleteFolder');
+    //签到表图片识别
+    Route::post('course/{course}/signment/recognize/image', 'SignmentController@recognize');
 
 
     //作业列表
@@ -190,6 +192,9 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'student', 'nam
     //课程-欢迎页
     Route::get('course/{course}/welcome', 'CourseController@welcome');
 
+    //我的签到-页面
+    Route::get('course/{course}/signment', 'SignmentController@index');
+
     //我的作业-页面
     Route::get('course/{course}/homework', 'HomeworkController@index');
     //我的作业-修改
@@ -207,5 +212,8 @@ Route::group(['middleware' => ['web', 'user.login'], 'prefix' => 'student', 'nam
     Route::any('course/{course}/report/{report}/commit', 'ReportController@commit');
     //报告下载路由
     Route::get('report/download', 'ReportController@download');
+
+    //我的期末考试-页面
+    Route::get('course/{course}/final_exam', 'FinalExamController@index');
 
 });
